@@ -1,0 +1,14 @@
+{
+  "head_label": "Pedometer Challenge",
+  "home": "Home",
+  "label_scoreboard": "Who is winning?",
+  "goal_steps": "Goal steps",
+  "steps": "steps",
+  "Steps": "Steps",
+  "change_lng": "Change language",
+
+  "addSteps": "Add steps",
+  "addStepsButton": "Add",
+  "usersList": "Choose user",
+  "Close": "Close"
+}
