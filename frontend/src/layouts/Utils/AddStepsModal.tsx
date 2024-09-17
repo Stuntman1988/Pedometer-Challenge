@@ -1,8 +1,8 @@
 import {useTranslation} from "react-i18next";
 import {useState} from "react";
-import {SpinnerLoading} from "../../utils/SpinnerLoading.tsx";
-import {Users} from "../../../models/Users.ts";
-import {AddStepsRequest} from "../../../models/addStepsRequest.ts";
+import {SpinnerLoading} from "./SpinnerLoading.tsx";
+import {User} from "../../models/User.ts";
+import {AddStepsRequest} from "../../models/AddStepsRequest.ts";
 
 
 export const AddStepsModal = ({setNewStepsAdded}: { setNewStepsAdded: (value: boolean) => void}) => {
@@ -10,7 +10,7 @@ export const AddStepsModal = ({setNewStepsAdded}: { setNewStepsAdded: (value: bo
     const {t} = useTranslation();
     const [httpError, setHttpError] = useState('')
     const [isLoading, setIsLoading] = useState(true)
-    const [users, setUsers] = useState<Users[]>([])
+    const [users, setUsers] = useState<User[]>([])
     const [selectedUser, setSelectedUser] = useState('')
     const [newSteps, setNewSteps] = useState('')
 
@@ -29,7 +29,7 @@ export const AddStepsModal = ({setNewStepsAdded}: { setNewStepsAdded: (value: bo
         const fetchUsersResponseJson = await fetchUsersResponse.json()
         const fetchUsersData = fetchUsersResponseJson._embedded.users
 
-        const usersTemp: Users[] = []
+        const usersTemp: User[] = []
 
         for (const key in fetchUsersData) {
             usersTemp.push({
@@ -84,7 +84,7 @@ export const AddStepsModal = ({setNewStepsAdded}: { setNewStepsAdded: (value: bo
                                     <select className={'form-select'} aria-label={'Default select example'}
                                             value={selectedUser} onChange={(e) => setSelectedUser(e.target.value)}>
                                         <option value="">{t('usersList')}</option>
-                                        {users.map((user: Users) =>
+                                        {users.map((user: User) =>
                                             <option key={user.id} value={user.id}>{user.name}</option>)
                                         }
                                     </select>

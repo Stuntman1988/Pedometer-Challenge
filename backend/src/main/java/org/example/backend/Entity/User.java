@@ -16,6 +16,13 @@ public class User {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "steps_goal")
-    private int stepsGoal;
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "password")
+    private String password;
+
+    @ManyToOne
+    @JoinColumn(name = "teams_id", referencedColumnName = "id")
+    private Teams teams;
 }

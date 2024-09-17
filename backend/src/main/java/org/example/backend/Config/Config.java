@@ -1,6 +1,7 @@
 package org.example.backend.Config;
 
 import org.example.backend.Entity.StepsHistory;
+import org.example.backend.Entity.Teams;
 import org.example.backend.Entity.User;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
@@ -17,6 +18,7 @@ public class Config implements RepositoryRestConfigurer {
 
             config.exposeIdsFor(User.class);
             config.exposeIdsFor(StepsHistory.class);
+            config.exposeIdsFor(Teams.class);
 
             cors.addMapping("/**")
                     .allowedOrigins("http://localhost:5173")

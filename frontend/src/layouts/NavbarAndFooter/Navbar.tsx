@@ -1,19 +1,19 @@
-import {NavLink} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faShoePrints} from "@fortawesome/free-solid-svg-icons";
 import {useTranslation} from "react-i18next";
+import {useAuth} from "../../auth/AuthContext.tsx";
 
 
 export const Navbar = () => {
 
-    const {i18n, t} = useTranslation()
+    const {t} = useTranslation()
+    const {isLoggedIn, logout} = useAuth()
+    const navigate = useNavigate()
 
-    const changeLanguage = () => {
-        if (i18n.language === 'en') {
-            i18n.changeLanguage('sv')
-        } else {
-            i18n.changeLanguage('en')
-        }
+    const handleLogout = () => {
+        logout()
+        navigate('/home')
     }
 
 
@@ -30,16 +30,25 @@ export const Navbar = () => {
                         <li className="nav-item">
                             <NavLink to={'/home'} className="nav-link">{t('home')}</NavLink>
                         </li>
+                        {isLoggedIn &&
+                            <li className="nav-item">
+                                <NavLink to={'/scoreboard'} className="nav-link">{t('Scoreboard')}</NavLink>
+                            </li>
+                        }
                     </ul>
-                    <div className={'d-flex align-items-center ms-auto'}>
-                        <p className={'me-2 mb-1 fs-6'}>{t('change_lng')}:</p>
-                        <button
-                            className={'btn border border-success d-flex justify-content-center align-items-center'}
-                            style={{width: '35px', height: '25px'}}
-                            onClick={() => changeLanguage()}>
-                            <span className={'mb-1'}>{i18n.language}</span>
-                        </button>
-                    </div>
+                    <ul className='navbar-nav ms-auto'>
+                        <li className='nav-item m-1'>
+                            {isLoggedIn ?
+                                <button type='button' className='btn btn-outline-danger' onClick={handleLogout}>
+                                    {t('logOut')}
+                                </button>
+                                :
+                                <a type='button' className='btn btn-outline-success' href='/login'>
+                                    {t('signIn')}
+                                </a>
+                            }
+                        </li>
+                    </ul>
                 </div>
 
             </div>

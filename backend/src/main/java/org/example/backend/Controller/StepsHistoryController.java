@@ -28,9 +28,9 @@ public class StepsHistoryController {
     }
 
     @GetMapping("/totalStepsOfUsers")
-    public List<TotalStepsOfUsers> getTotalStepsOfUsers() {
+    public List<TotalStepsOfUsers> getTotalStepsOfUsers(@RequestParam int teamsId) {
         log.info("getTotalStepsOfUsers");
-       return stepsHistoryRepo.getTotalStepsOfUsers();
+       return stepsHistoryRepo.getTotalStepsOfUsers(teamsId);
     }
 
     @PostMapping("/addSteps")

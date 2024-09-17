@@ -6,9 +6,14 @@
   "steps": "steps",
   "Steps": "Steps",
   "change_lng": "Change language",
+  "Scoreboard": "Scoreboard",
+  "logOut": "Log out",
+  "signIn": "Sign in",
 
   "addSteps": "Add steps",
   "addStepsButton": "Add",
   "usersList": "Choose user",
-  "Close": "Close"
+  "Close": "Close",
+
+  "topHomeText": "Compete against your friends in a pedometer challenge!"
 }

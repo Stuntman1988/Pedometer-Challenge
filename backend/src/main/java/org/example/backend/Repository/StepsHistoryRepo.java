@@ -4,6 +4,7 @@ import org.example.backend.Entity.StepsHistory;
 import org.example.backend.ResponseModels.TotalStepsOfUsers;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -11,7 +12,9 @@ public interface StepsHistoryRepo extends JpaRepository<StepsHistory, Long> {
 
     @Query("SELECT new org.example.backend.ResponseModels.TotalStepsOfUsers(sh.user.name, SUM(sh.steps)) " +
             "FROM StepsHistory sh " +
+            "INNER JOIN Teams t on sh.user.teams.id = t.id " +
+            "WHERE t.id = :teamsId " +
             "GROUP BY sh.user.id " +
             "ORDER BY SUM(sh.steps) DESC")
-    List<TotalStepsOfUsers> getTotalStepsOfUsers();
+    List<TotalStepsOfUsers> getTotalStepsOfUsers(@Param("teamsId") int teamsId);
 }

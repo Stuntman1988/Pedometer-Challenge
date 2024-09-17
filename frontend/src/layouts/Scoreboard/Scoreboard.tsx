@@ -1,9 +1,9 @@
-import {Progressbar} from "./Progressbar.tsx";
+import {Progressbar} from "./Components/Progressbar.tsx";
 import {useEffect, useState} from "react";
-import {TotalStepsOfUsers} from "../../../models/TotalStepsOfUsers.ts";
-import {SpinnerLoading} from "../../utils/SpinnerLoading.tsx";
+import {TotalStepsOfUsers} from "../../models/TotalStepsOfUsers.ts";
+import {SpinnerLoading} from "../Utils/SpinnerLoading.tsx";
 import {useTranslation} from "react-i18next";
-import {AddStepsModal} from "./AddStepsModal.tsx";
+import {AddStepsModal} from "../Utils/AddStepsModal.tsx";
 
 
 export const Scoreboard = () => {
@@ -16,7 +16,7 @@ export const Scoreboard = () => {
 
     useEffect(() => {
         const fetchTotalSteps = async () => {
-            const url = `http://localhost:8080/api/stepsHistory/totalStepsOfUsers`
+            const url = `http://localhost:8080/api/stepsHistory/totalStepsOfUsers?teamsId=1` //TODO: teamsId ska läsas från localstorage efter inloggad
             const fetchTotalStepsResponse = await fetch(url)
 
             if (!fetchTotalStepsResponse.ok) {

@@ -1,11 +1,11 @@
-import {Scoreboard} from "./Components/Scoreboard.tsx";
+import {TopHome} from "./Components/TopHome.tsx";
 
 
 export const HomePage = () => {
 
     return (
         <>
-        <Scoreboard/>
+            <TopHome/>
         </>
     )
 }

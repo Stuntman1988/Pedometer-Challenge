@@ -6,9 +6,14 @@
   "steps": "steg",
   "Steps": "Steg",
   "change_lng": "Ändra språk",
+  "Scoreboard": "Resultattavla",
+  "logOut": "Logga ut",
+  "signIn": "Logga in",
 
   "addSteps": "Lägg till steg",
   "addStepsButton": "Lägg till",
   "usersList": "Välj användare",
-  "Close": "Avbryt"
+  "Close": "Avbryt",
+
+  "topHomeText": "Tävla mot dina vänner i en stegtävling!"
 }
