@@ -21,5 +21,9 @@
   "Email": "Email",
   "Password": "Lösenord",
   "NotAMember": "Inte registrerad?",
-  "Register": "Registrera"
+  "Register": "Registrera",
+
+  "teamNotAMember": "är du inte medlem än?",
+  "putInAId": "Skriv in ett team id och börja gå!",
+  "addMe": "Lägg till mig!"
 }

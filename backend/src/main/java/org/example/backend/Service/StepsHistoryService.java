@@ -40,6 +40,7 @@ public class StepsHistoryService {
         sh.setUser(user.get());
         sh.setSteps(addStepsRequest.getSteps());
         stepsHistoryRepo.save(sh);
+        log.info("addSteps " + addStepsRequest.getUserId());
         return true;
     }
 

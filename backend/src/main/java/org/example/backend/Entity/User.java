@@ -23,6 +23,6 @@ public class User {
     private String password;
 
     @ManyToOne
-    @JoinColumn(name = "teams_id", referencedColumnName = "id")
-    private Teams teams;
+    @JoinColumn(name = "team_id", referencedColumnName = "id")
+    private Team team;
 }

@@ -5,15 +5,14 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "teams")
-public class Teams {
+@Table(name = "team")
+public class Team {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private long id;
 
     @Column(name = "steps_goal")
-    private int stepsGoal;
+    private long stepsGoal;
 
 }

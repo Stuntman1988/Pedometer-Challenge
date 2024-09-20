@@ -1,11 +1,11 @@
 import {useTranslation} from "react-i18next";
-import {useState} from "react";
+import React, {useState} from "react";
 import {SpinnerLoading} from "./SpinnerLoading.tsx";
 import {User} from "../../models/User.ts";
 import {AddStepsRequest} from "../../models/AddStepsRequest.ts";
 
 
-export const AddStepsModal = ({setNewStepsAdded, teamId}: { setNewStepsAdded: (value: boolean) => void; teamId: string }) => {
+export const AddStepsModal: React.FC<{setNewStepsAdded: (value: boolean) => void, teamId: string}> = (prop) => {
 
     const {t} = useTranslation();
     const [httpError, setHttpError] = useState('')
@@ -18,7 +18,7 @@ export const AddStepsModal = ({setNewStepsAdded, teamId}: { setNewStepsAdded: (v
     modalElement?.addEventListener('shown.bs.modal', fetchUsers);
 
     async function fetchUsers() {
-        const url = `http://localhost:8080/api/users/search/findUsersByTeamsId?teamId=${teamId}`
+        const url = `http://localhost:8080/api/users/search/findUsersByTeamId?teamId=${prop.teamId}`
         const fetchUsersResponse = await fetch(url)
 
         if (!fetchUsersResponse.ok) {
@@ -59,7 +59,7 @@ export const AddStepsModal = ({setNewStepsAdded, teamId}: { setNewStepsAdded: (v
             throw new Error('Something went wrong') //TODO: skapa ett felmeddealnde som kommer upp
         }
 
-        setNewStepsAdded(true)
+        prop.setNewStepsAdded(true)
         setNewSteps('')
         setSelectedUser('')
     }

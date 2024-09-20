@@ -17,7 +17,6 @@ import java.util.List;
 @RequestMapping("/api/stepsHistory")
 public class StepsHistoryController {
 
-    private static final Logger log = LoggerFactory.getLogger(StepsHistoryController.class);
     private StepsHistoryRepo stepsHistoryRepo;
     private StepsHistoryService stepsHistoryService;
 
@@ -28,14 +27,12 @@ public class StepsHistoryController {
     }
 
     @GetMapping("/totalStepsOfUsers")
-    public List<TotalStepsOfUsers> getTotalStepsOfUsers(@RequestParam int teamsId) {
-        log.info("getTotalStepsOfUsers");
-       return stepsHistoryRepo.getTotalStepsOfUsers(teamsId);
+    public List<TotalStepsOfUsers> getTotalStepsOfUsers(@RequestParam int teamId) {
+       return stepsHistoryRepo.getTotalStepsOfUsers(teamId);
     }
 
     @PostMapping("/addSteps")
     public boolean addSteps(@RequestBody AddStepsRequest addStepsRequest) {
-        log.info("addSteps " + addStepsRequest.getUserId());
         return stepsHistoryService.addSteps(addStepsRequest);
     }
 }
