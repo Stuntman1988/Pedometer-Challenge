@@ -7,6 +7,7 @@
   "Steps": "Steps",
   "change_lng": "Change language",
   "Scoreboard": "Scoreboard",
+  "Teams": "Team",
   "logOut": "Log out",
   "signIn": "Sign in",
 
@@ -15,5 +16,10 @@
   "usersList": "Choose user",
   "Close": "Close",
 
-  "topHomeText": "Compete against your friends in a pedometer challenge!"
+  "topHomeText": "Compete against your friends in a pedometer challenge!",
+
+  "Email": "Email address",
+  "Password": "Password",
+  "NotAMember": "Not a member?",
+  "Register": "Register"
 }

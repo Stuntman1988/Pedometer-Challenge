@@ -1,17 +1,21 @@
-import { useEffect, useState } from "react"
+import {useEffect, useState} from "react"
 import { useNavigate } from "react-router-dom"
 import {useAuth} from "../../auth/AuthContext.tsx";
 import {User} from "../../models/User.ts";
+import {useTranslation} from "react-i18next";
 
 
 
 export const LoginPage = () => {
+
+    const {t} = useTranslation()
+    const {login} = useAuth();
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [emailError, setEmailError] = useState('')
     const [passwordError, setPasswordError] = useState('')
     const [isValid, setIsValid] = useState(false)
-    const {login} = useAuth();
+
     const navigate = useNavigate()
 
     const validateSignIn = () => {
@@ -52,13 +56,14 @@ export const LoginPage = () => {
             if (!response.ok) {
                 setEmailError('Email not registered!')
                 setIsValid(false)
-                throw new Error('Something went wrong!')
+                return
             }
 
             const responseJson = await response.json()
             console.log(responseJson)
 
-            const user = new User(responseJson.id, responseJson.name, responseJson.email, responseJson.teams.id)
+
+            const user = new User(responseJson.id, responseJson.name, responseJson.email, responseJson.teams?.id)
 
             if (responseJson.password === password) {
                 login(user)
@@ -81,21 +86,21 @@ export const LoginPage = () => {
                 <form onSubmit={validateSignIn}>
 
                     <div className="form-outline mb-4">
-                        <label className="form-label" htmlFor="email">Email address</label>
+                        <label className="form-label" htmlFor="email">{t('Email')}</label>
                         <input type="email" id="email" className="form-control" onChange={e => setEmail(e.target.value)} />
                         {emailError && <p className="form-text text-danger">{emailError}</p>}
                     </div>
 
                     <div className="form-outline mb-4">
-                        <label className="form-label" htmlFor="password">Password</label>
+                        <label className="form-label" htmlFor="password">{t('Password')}</label>
                         <input type="password" id="password" className="form-control" onChange={e => setPassword(e.target.value)} />
                         {passwordError && <p className="form-text text-danger">{passwordError}</p>}
                     </div>
 
-                    <button type="button" className="btn btn-primary mb-4" onClick={() => validateSignIn()}>Sign in</button>
+                    <button type="button" className="btn btn-primary mb-4" onClick={() => validateSignIn()}>{t('signIn')}</button>
 
                     <div className="text-center">
-                        <p>Not a member? <a href="#!">Register</a></p>
+                        <p>{t('NotAMember')} <a href="#">{t('Register')}</a></p>
                     </div>
 
                 </form>

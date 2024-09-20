@@ -3,9 +3,9 @@ export class User {
     name: string
     email: string
     password?: string
-    teamsId: number
+    teamsId?: number
 
-    constructor(id: number, name: string, email: string, teamsId: number, password?: string) {
+    constructor(id: number, name: string, email: string, teamsId?: number, password?: string) {
         this.id = id
         this.name = name
         this.email = email

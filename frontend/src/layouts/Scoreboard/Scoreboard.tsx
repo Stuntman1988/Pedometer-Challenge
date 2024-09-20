@@ -4,45 +4,59 @@ import {TotalStepsOfUsers} from "../../models/TotalStepsOfUsers.ts";
 import {SpinnerLoading} from "../Utils/SpinnerLoading.tsx";
 import {useTranslation} from "react-i18next";
 import {AddStepsModal} from "../Utils/AddStepsModal.tsx";
+import {useAuth} from "../../auth/AuthContext.tsx";
+import {useNavigate} from "react-router-dom";
 
 
 export const Scoreboard = () => {
 
     const {t} = useTranslation();
+    const {isLoggedIn} = useAuth()
+    const navigate = useNavigate();
     const [httpError, setHttpError] = useState('')
     const [isLoading, setIsLoading] = useState(true)
     const [totalSteps, setTotalSteps] = useState<TotalStepsOfUsers[]>([])
     const [newStepsAdded, setNewStepsAdded] = useState(false)
+    const [teamToken] = useState<string | null>(localStorage.getItem("teamToken"));
+    const [teamId, setTeamId] = useState('')
+
 
     useEffect(() => {
         const fetchTotalSteps = async () => {
-            const url = `http://localhost:8080/api/stepsHistory/totalStepsOfUsers?teamsId=1` //TODO: teamsId ska läsas från localstorage efter inloggad
-            const fetchTotalStepsResponse = await fetch(url)
+            if (isLoggedIn && teamToken) {
+                const url = `http://localhost:8080/api/stepsHistory/totalStepsOfUsers?teamsId=${teamToken}`
+                setTeamId(teamToken)
+                    const fetchTotalStepsResponse = await fetch(url)
 
-            if (!fetchTotalStepsResponse.ok) {
-                setIsLoading(false)
-                setHttpError("Something went wrong")
+                    if (!fetchTotalStepsResponse.ok) {
+                        setIsLoading(false)
+                        setHttpError("Something went wrong")
+                        return
+                    }
+
+                    const fetchTotalStepsResponseJson = await fetchTotalStepsResponse.json()
+                    const tempList: TotalStepsOfUsers[] = []
+                    for (const key in fetchTotalStepsResponseJson) {
+                        tempList.push({
+                            name: fetchTotalStepsResponseJson[key].name,
+                            totalSteps: fetchTotalStepsResponseJson[key].totalSteps
+                        })
+                    }
+
+                    setTotalSteps(tempList)
+                    setNewStepsAdded(false)
+            } else if (teamToken === null) {
+                navigate('/teams')
+                return
             }
-
-            const fetchTotalStepsResponseJson = await fetchTotalStepsResponse.json()
-            const tempList: TotalStepsOfUsers[] = []
-            for (const key in fetchTotalStepsResponseJson) {
-                tempList.push({
-                    name: fetchTotalStepsResponseJson[key].name,
-                    totalSteps: fetchTotalStepsResponseJson[key].totalSteps
-                })
-            }
-
-            setTotalSteps(tempList)
             setIsLoading(false)
-            setNewStepsAdded(false)
-
         }
         fetchTotalSteps().catch((err) => {
             setHttpError(err.message)
             setIsLoading(false)
         })
-    }, [newStepsAdded]);
+
+    }, [newStepsAdded, isLoggedIn, teamToken]);
 
     if (httpError) {
         return (
@@ -71,7 +85,7 @@ export const Scoreboard = () => {
                     {t('addSteps')}
                 </button>
             </div>
-            <AddStepsModal setNewStepsAdded={setNewStepsAdded}/>
+            <AddStepsModal setNewStepsAdded={setNewStepsAdded} teamId={teamId}/>
         </div>
     )
 }

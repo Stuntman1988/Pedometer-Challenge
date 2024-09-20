@@ -10,11 +10,12 @@ import java.util.List;
 
 public interface StepsHistoryRepo extends JpaRepository<StepsHistory, Long> {
 
-    @Query("SELECT new org.example.backend.ResponseModels.TotalStepsOfUsers(sh.user.name, SUM(sh.steps)) " +
-            "FROM StepsHistory sh " +
-            "INNER JOIN Teams t on sh.user.teams.id = t.id " +
+    @Query("SELECT new org.example.backend.ResponseModels.TotalStepsOfUsers(u.name, COALESCE(SUM(sh.steps), 0)) " +
+            "FROM User u " +
+            "LEFT JOIN StepsHistory sh ON sh.user.id = u.id " +
+            "INNER JOIN Teams t ON u.teams.id = t.id " +
             "WHERE t.id = :teamsId " +
-            "GROUP BY sh.user.id " +
-            "ORDER BY SUM(sh.steps) DESC")
+            "GROUP BY u.id " +
+            "ORDER BY COALESCE(SUM(sh.steps), 0) DESC")
     List<TotalStepsOfUsers> getTotalStepsOfUsers(@Param("teamsId") int teamsId);
 }

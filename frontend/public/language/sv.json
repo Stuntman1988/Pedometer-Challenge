@@ -7,6 +7,7 @@
   "Steps": "Steg",
   "change_lng": "Ändra språk",
   "Scoreboard": "Resultattavla",
+  "Teams": "Team",
   "logOut": "Logga ut",
   "signIn": "Logga in",
 
@@ -15,5 +16,10 @@
   "usersList": "Välj användare",
   "Close": "Avbryt",
 
-  "topHomeText": "Tävla mot dina vänner i en stegtävling!"
+  "topHomeText": "Tävla mot dina vänner i en stegtävling!",
+
+  "Email": "Email",
+  "Password": "Lösenord",
+  "NotAMember": "Inte registrerad?",
+  "Register": "Registrera"
 }

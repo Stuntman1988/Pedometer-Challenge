@@ -23,6 +23,7 @@
                 <artifactId>frontend-maven-plugin</artifactId>
                 <version>1.15.0</version> <!-- Se till att detta är den senaste versionen -->
                 <executions>
+                    <!-- Installera Node och npm -->
                     <execution>
                         <id>install node and npm</id>
                         <goals>
@@ -33,6 +34,8 @@
                             <npmVersion>10.8.0</npmVersion> <!-- Ange din npm version -->
                         </configuration>
                     </execution>
+
+                    <!-- Kör npm install -->
                     <execution>
                         <id>npm install</id>
                         <goals>
@@ -42,6 +45,8 @@
                             <arguments>install</arguments>
                         </configuration>
                     </execution>
+
+                    <!-- Kör npm run build -->
                     <execution>
                         <id>npm run build</id>
                         <goals>
@@ -51,8 +56,21 @@
                             <arguments>run build</arguments>
                         </configuration>
                     </execution>
+
+                    <!-- Lägg till clean-målet för att rensa node_modules -->
+                    <execution>
+                        <id>npm clean</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <phase>clean</phase> <!-- Exekvera vid clean -->
+                        <configuration>
+                            <arguments>run clean</arguments> <!-- Förväntar sig ett "clean"-script i package.json -->
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>
     </build>
+
 </project>

@@ -5,7 +5,7 @@ import {User} from "../../models/User.ts";
 import {AddStepsRequest} from "../../models/AddStepsRequest.ts";
 
 
-export const AddStepsModal = ({setNewStepsAdded}: { setNewStepsAdded: (value: boolean) => void}) => {
+export const AddStepsModal = ({setNewStepsAdded, teamId}: { setNewStepsAdded: (value: boolean) => void; teamId: string }) => {
 
     const {t} = useTranslation();
     const [httpError, setHttpError] = useState('')
@@ -18,7 +18,7 @@ export const AddStepsModal = ({setNewStepsAdded}: { setNewStepsAdded: (value: bo
     modalElement?.addEventListener('shown.bs.modal', fetchUsers);
 
     async function fetchUsers() {
-        const url = "http://localhost:8080/api/users"
+        const url = `http://localhost:8080/api/users/search/findUsersByTeamsId?teamId=${teamId}`
         const fetchUsersResponse = await fetch(url)
 
         if (!fetchUsersResponse.ok) {
@@ -35,7 +35,7 @@ export const AddStepsModal = ({setNewStepsAdded}: { setNewStepsAdded: (value: bo
             usersTemp.push({
                 id: fetchUsersData[key].id,
                 name: fetchUsersData[key].name,
-                stepsGoal: fetchUsersData[key].totalSteps
+                email: fetchUsersData[key].email,
             })
         }
         setUsers(usersTemp)
@@ -55,11 +55,13 @@ export const AddStepsModal = ({setNewStepsAdded}: { setNewStepsAdded: (value: bo
         }
         const saveStepsResponse = await fetch(url, headers)
 
-        if (saveStepsResponse.ok){
-            setNewStepsAdded(true)
-            setNewSteps('')
-            setSelectedUser('')
+        if (!saveStepsResponse.ok){
+            throw new Error('Something went wrong') //TODO: skapa ett felmeddealnde som kommer upp
         }
+
+        setNewStepsAdded(true)
+        setNewSteps('')
+        setSelectedUser('')
     }
 
 

@@ -1,9 +1,9 @@
 export class AddStepsRequest {
-    userId: number;
-    steps: number;
+    userId: number
+    steps: number
 
     constructor(userId: number, steps: number) {
         this.userId = userId
-        this.steps = steps;
+        this.steps = steps
     }
 }

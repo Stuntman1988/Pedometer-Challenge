@@ -18,7 +18,7 @@ export const Navbar = () => {
 
 
     return (
-        <nav className="navbar navbar-expand-lg bg-body-tertiary">
+        <nav className="navbar navbar-expand-md bg-body-tertiary">
             <div className="container-fluid">
                 <p className={'navbar-brand m-2'}>{t('head_label')} <FontAwesomeIcon icon={faShoePrints}/></p>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -31,9 +31,14 @@ export const Navbar = () => {
                             <NavLink to={'/home'} className="nav-link">{t('home')}</NavLink>
                         </li>
                         {isLoggedIn &&
-                            <li className="nav-item">
-                                <NavLink to={'/scoreboard'} className="nav-link">{t('Scoreboard')}</NavLink>
-                            </li>
+                            <>
+                                <li className="nav-item">
+                                    <NavLink to={'/scoreboard'} className="nav-link">{t('Scoreboard')}</NavLink>
+                                </li>
+                                <li className="nav-item">
+                                    <NavLink to={'/teams'} className="nav-link">{t('Teams')}</NavLink> {/*TODO: Ska kanske inte vara som knapp*/}
+                                </li>
+                            </>
                         }
                     </ul>
                     <ul className='navbar-nav ms-auto'>

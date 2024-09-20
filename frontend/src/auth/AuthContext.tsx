@@ -25,9 +25,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({children}) => {
 
     const login = (token: User) => {
         localStorage.setItem('userToken', token.email);
-        console.log(token)
-
-        localStorage.setItem('teamToken', token.teamsId.toString());
+        if (token.teamsId !== undefined) {
+            localStorage.setItem('teamToken', token.teamsId.toString());
+        }
         setIsLoggedIn(true);
     };
 
