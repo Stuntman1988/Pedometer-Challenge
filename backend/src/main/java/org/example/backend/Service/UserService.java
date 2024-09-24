@@ -20,11 +20,13 @@ public class UserService {
     private static final Logger log = LoggerFactory.getLogger(UserService.class);
     private UserRepo userRepo;
     private TeamRepo teamRepo;
+    private Argon2Service argon2Service;
 
     @Autowired
-    public UserService(UserRepo userRepo, TeamRepo teamsRepo) {
+    public UserService(UserRepo userRepo, TeamRepo teamsRepo, Argon2Service argon2Service) {
         this.userRepo = userRepo;
         this.teamRepo = teamsRepo;
+        this.argon2Service = argon2Service;
     }
 
     public void addUserToTeam(AddToTeamRequest addToTeamRequest) throws Exception {
@@ -36,5 +38,14 @@ public class UserService {
         user.get().setTeam(team.get());
         userRepo.save(user.get());
         log.info("User added to team");
+    }
+
+    public boolean verifyPassword(String userPass) throws Exception {
+        String[] userPassArray = userPass.split(":");
+        Optional<User> user = userRepo.findUserByEmail(userPassArray[0]);
+        if (user.isEmpty()) {
+            throw new Exception("Could not find user");
+        }
+        return argon2Service.verifyPassword(userPassArray[1], user.get().getPassword());
     }
 }

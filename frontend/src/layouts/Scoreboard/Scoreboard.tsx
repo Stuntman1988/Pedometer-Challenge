@@ -6,6 +6,7 @@ import {useTranslation} from "react-i18next";
 import {AddStepsModal} from "../Utils/AddStepsModal.tsx";
 import {useAuth} from "../../auth/AuthContext.tsx";
 import {useNavigate} from "react-router-dom";
+import {Team} from "../../models/Team.ts";
 
 
 export const Scoreboard = () => {
@@ -15,10 +16,11 @@ export const Scoreboard = () => {
     const navigate = useNavigate();
     const [httpError, setHttpError] = useState('')
     const [isLoading, setIsLoading] = useState(true)
-    const [totalSteps, setTotalSteps] = useState<TotalStepsOfUsers[]>([])
+    const [totalStepsOfUser, setTotalStepsOfUser] = useState<TotalStepsOfUsers[]>([])
     const [newStepsAdded, setNewStepsAdded] = useState(false)
     const [teamToken] = useState<string | null>(localStorage.getItem("teamToken"));
     const [teamId, setTeamId] = useState('')
+    const [team, setTeam] = useState<Team>()
 
 
     useEffect(() => {
@@ -43,12 +45,13 @@ export const Scoreboard = () => {
                         })
                     }
 
-                    setTotalSteps(tempList)
+                    setTotalStepsOfUser(tempList)
                     setNewStepsAdded(false)
             } else if (teamToken === null) {
                 navigate('/team')
                 return
             }
+            await getTeam()
             setIsLoading(false)
         }
         fetchTotalSteps().catch((err) => {
@@ -57,6 +60,20 @@ export const Scoreboard = () => {
         })
 
     }, [newStepsAdded, isLoggedIn, teamToken, navigate]);
+
+    const getTeam = async () => {
+        const url = `http://localhost:8080/api/teams/search/findTeamById?teamId=${teamToken}`
+        const fetchTeam = await fetch(url)
+
+        if (!fetchTeam.ok) {
+            setHttpError("Something went wrong")
+            return
+        }
+
+        const fetchTeamJson = await fetchTeam.json()
+
+        setTeam(new Team(fetchTeamJson.id, fetchTeamJson.stepsGoal, fetchTeamJson.createdAt))
+    }
 
     if (httpError) {
         return (
@@ -75,9 +92,12 @@ export const Scoreboard = () => {
     return (
         <div className={'container mt-3'}>
             <h1 className={'text-center'}>{t('label_scoreboard')}</h1>
-            <h5 className={'text-end'}>{t('goal_steps')}: 100000</h5>
-            {totalSteps.map((t, index) => (
-                <Progressbar data={t} key={index}/>
+            <div className={'row mt-4'}>
+                <h5 className={'col text-start'}>Team ID: {team?.id}</h5>
+                <h5 className={'col text-end'}>{t('stepGoal')}: {team?.stepsGoal ?? 0}</h5>
+            </div>
+            {totalStepsOfUser.map((t, index) => (
+                <Progressbar data={t} team={team} key={index}/>
             ))}
             <div className={'mt-4'}>
                 <button type="button" className="btn btn-sm btn-success" data-bs-toggle="modal"

@@ -2,7 +2,7 @@
   "head_label": "Stegtävling",
   "home": "Hem",
   "label_scoreboard": "Vem vinner?",
-  "goal_steps": "Stegmål",
+  "stepGoal": "Stegmål",
   "steps": "steg",
   "Steps": "Steg",
   "change_lng": "Ändra språk",
@@ -25,5 +25,8 @@
 
   "teamNotAMember": "är du inte medlem än?",
   "putInAId": "Skriv in ett team id och börja gå!",
-  "addMe": "Lägg till mig!"
+  "addMe": "Lägg till mig!",
+  "orCreateNewTeam": "eller skapa ett nytt team och bjud in dina vänner",
+  "createNewTeam": "Skapa ett nytt team och utmana dina vänner.",
+  "setATarget": "Sätt ett mål och börja gå!"
 }

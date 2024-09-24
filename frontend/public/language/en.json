@@ -2,7 +2,7 @@
   "head_label": "Pedometer Challenge",
   "home": "Home",
   "label_scoreboard": "Who is winning?",
-  "goal_steps": "Goal steps",
+  "stepGoal": "Step goal",
   "steps": "steps",
   "Steps": "Steps",
   "change_lng": "Change language",
@@ -25,5 +25,8 @@
 
   "teamNotAMember": "are you not a member of a team yet?",
   "putInAId": "Put in a team id and start walking.",
-  "addMe": "Add me!"
+  "addMe": "Add me!",
+  "orCreateNewTeam": "or create a new team and invite your friends",
+  "createNewTeam": "Create a new team to challenge your friends",
+  "setATarget": "Set att target and start walking!"
 }

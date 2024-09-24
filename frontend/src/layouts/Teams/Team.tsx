@@ -6,9 +6,11 @@ import {AddToTeam} from "./Components/AddToTeam.tsx";
 import {CreateNewTeam} from "./Components/CreateNewTeam.tsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowDown} from "@fortawesome/free-solid-svg-icons";
+import {useTranslation} from "react-i18next";
 
 export const Team = () => {
 
+    const {t} = useTranslation()
     const {isLoggedIn} = useAuth()
     const [httpError, setHttpError] = useState('')
     const [isLoading, setIsLoading] = useState(true)
@@ -27,14 +29,17 @@ export const Team = () => {
                 }
 
                 const responseJson = await response.json()
+                const newUser = new User(responseJson.id, responseJson.name, responseJson.email)
+
                 const teamUrl = responseJson._links.team.href
                 const fetchTeam = await fetch(teamUrl)
-                if (!fetchTeam.ok) {
-                    setUser(new User(responseJson.id, responseJson.name, responseJson.email))
-                } else {
+
+                if (fetchTeam.ok) {
                     const fetchTeamJson = await fetchTeam.json()
-                    setUser(new User(responseJson.id, responseJson.name, responseJson.email, fetchTeamJson.id))
+                    newUser.teamId = fetchTeamJson.id
                 }
+
+                setUser(newUser)
                 setIsLoading(false)
             }
         }
@@ -67,7 +72,7 @@ export const Team = () => {
                         <AddToTeam user={user}/>
                     </div>
                     <p className={'text-center fs-4 mt-4'}>
-                        or create a new team and invite your friends
+                        {t('orCreateNewTeam')}
                         <br/>
                         <FontAwesomeIcon icon={faArrowDown} className={'fs-2'}/>
                     </p>

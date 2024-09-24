@@ -1,12 +1,13 @@
 import * as React from 'react';
 import {TotalStepsOfUsers} from "../../../models/TotalStepsOfUsers.ts";
 import {useTranslation} from "react-i18next";
+import {Team} from "../../../models/Team.ts";
 
-export const Progressbar: React.FC<{ data: TotalStepsOfUsers }> = (prop) => {
+export const Progressbar: React.FC<{ data: TotalStepsOfUsers, team?: Team }> = (prop) => {
 
     const {t} = useTranslation()
 
-    const goalSteps = 100000
+    const goalSteps = prop.team?.stepsGoal ?? 0
     const percentOfSteps = parseFloat(((prop.data.totalSteps / goalSteps) * 100).toFixed(1));
 
 

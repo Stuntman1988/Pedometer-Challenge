@@ -5,7 +5,7 @@ import {User} from "../../../models/User.ts";
 import {useNavigate} from "react-router-dom";
 
 
-export const AddToTeam: React.FC<{user: User}> = (prop) => {
+export const AddToTeam: React.FC<{ user: User }> = (prop) => {
 
     const {t} = useTranslation();
     const [addToTeamError, setAddToTeamError] = useState('')
@@ -38,8 +38,12 @@ export const AddToTeam: React.FC<{user: User}> = (prop) => {
     return (
         <div className={'card'}>
             <div className={'card-header text-center'}>
-                <div
-                    className={'card-title fs-5'}>{prop.user?.name.substring(0, prop.user?.name.indexOf(' '))}, {t('teamNotAMember')}
+                <div className={'card-title fs-5'}>
+                    {prop.user?.name.includes(' ') ?
+                        prop.user.name.substring(0, prop.user.name.indexOf(' '))
+                        :
+                        prop.user.name
+                    }, {t('teamNotAMember')}
                 </div>
                 <h6 className={'card-subtitle mb-2 text-body-secondary'}>{t('putInAId')}</h6>
             </div>

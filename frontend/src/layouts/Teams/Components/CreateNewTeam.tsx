@@ -1,8 +1,10 @@
 import {useState} from "react";
+import {useTranslation} from "react-i18next";
 
 
 export const CreateNewTeam = () => {
 
+    const {t} = useTranslation();
     const [stepGoal, setStepGoal] = useState('');
 
     const createNewTeam = async () => {
@@ -12,7 +14,7 @@ export const CreateNewTeam = () => {
             headers: {
                 'Content-Type': 'application/json'
             }
-        };
+        }
         const response = await fetch(url, headers);
         if (!response.ok) {
             throw new Error('Something went wrong') //TODO: Skapa felmeddelande.
@@ -25,14 +27,14 @@ export const CreateNewTeam = () => {
         <div className={'card'}>
             <div className={'card-header text-center'}>
                 <div
-                    className={'card-title fs-5'}>Create a new team to challenge your friends.
+                    className={'card-title fs-5'}>{t('createNewTeam')}.
                 </div>
-                <h6 className={'card-subtitle mb-2 text-body-secondary'}>Set att target and start walking!</h6>
+                <h6 className={'card-subtitle mb-2 text-body-secondary'}>{t('setATarget')}</h6>
             </div>
             <div className={'card-body text-center'}>
                 <form className={'row justify-content-center align-items-center'}>
                     <div className={'col-4 text-end'}>
-                        <label htmlFor={'teamIdInput'} className={'form-label'}>Step goal</label>
+                        <label htmlFor={'teamIdInput'} className={'form-label'}>{t('stepGoal')}</label>
                     </div>
                     <div className={'col-4'}>
                         <input type={'number'} className={'form-control'} id={'teamIdInput'} value={stepGoal}
