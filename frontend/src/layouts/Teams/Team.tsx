@@ -20,7 +20,7 @@ export const Team = () => {
         const fetchUser = async () => {
             if (isLoggedIn) {
                 const savedUserEmail = localStorage.getItem('userToken');
-                const url = `http://localhost:8080/api/users/search/findUserByEmail?email=${savedUserEmail}`
+                const url = `${import.meta.env.VITE_BACKEND_URL}/users/search/findUserByEmail?email=${savedUserEmail}`
                 const response = await fetch(url)
 
                 if (!response.ok) {

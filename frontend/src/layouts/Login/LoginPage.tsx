@@ -49,7 +49,7 @@ export const LoginPage = () => {
         }
         const fetchUser = async () => {
 
-            const urlFetchUser = `http://localhost:8080/api/users/search/findUserByEmail?email=${email}`
+            const urlFetchUser = `${import.meta.env.VITE_BACKEND_URL}/users/search/findUserByEmail?email=${email}`
             const fetchUserResponse = await fetch(urlFetchUser)
             if (!fetchUserResponse.ok) {
                 setEmailError('Email not registered!')
@@ -57,7 +57,7 @@ export const LoginPage = () => {
                 return
             }
 
-            const urlVerifyPassword = `http://localhost:8080/api/users/checkPassword`
+            const urlVerifyPassword = `${import.meta.env.VITE_BACKEND_URL}/users/checkPassword`
             const headers = {
                 method: 'GET',
                 headers: {

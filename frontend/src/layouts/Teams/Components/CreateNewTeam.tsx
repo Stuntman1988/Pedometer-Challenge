@@ -8,7 +8,7 @@ export const CreateNewTeam = () => {
     const [stepGoal, setStepGoal] = useState('');
 
     const createNewTeam = async () => {
-        const url = `http://localhost:8080/api/team/createNewTeam?stepGoal=${Number(stepGoal)}`
+        const url = `${import.meta.env.VITE_BACKEND_URL}/team/createNewTeam?stepGoal=${Number(stepGoal)}`
         const headers = {
             method: 'POST',
             headers: {

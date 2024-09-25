@@ -42,7 +42,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({children}) => {
         if (!token) {
             return false;
         }
-        const url = `http://localhost:8080/api/users/search/checkIfUserIsAdmin/`
+        const url = `${import.meta.env.VITE_BACKEND_URL}/users/search/checkIfUserIsAdmin/`
         const headersOptions = {
             method: 'GET',
             headers: {

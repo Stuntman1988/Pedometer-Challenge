@@ -18,7 +18,7 @@ export const AddStepsModal: React.FC<{setNewStepsAdded: (value: boolean) => void
     modalElement?.addEventListener('shown.bs.modal', fetchUsers);
 
     async function fetchUsers() {
-        const url = `http://localhost:8080/api/users/search/findUsersByTeamId?teamId=${prop.teamId}`
+        const url = `${import.meta.env.VITE_BACKEND_URL}/users/search/findUsersByTeamId?teamId=${prop.teamId}`
         const fetchUsersResponse = await fetch(url)
 
         if (!fetchUsersResponse.ok) {
@@ -45,7 +45,7 @@ export const AddStepsModal: React.FC<{setNewStepsAdded: (value: boolean) => void
     async function saveSteps() {
         const saveStepsData = new AddStepsRequest(Number(selectedUser), Number(newSteps))
 
-        const url = "http://localhost:8080/api/stepsHistory/addSteps"
+        const url = `${import.meta.env.VITE_BACKEND_URL}/stepsHistory/addSteps`
         const headers = {
             method: 'POST',
             headers: {

@@ -14,7 +14,7 @@ export const AddToTeam: React.FC<{ user: User }> = (prop) => {
 
     const addMeToTeam = async () => {
         const addToTeamRequest = new AddToTeamRequest(prop.user?.id, Number(teamId))
-        const url = `http://localhost:8080/api/users/addToTeam`
+        const url = `${import.meta.env.VITE_BACKEND_URL}/users/addToTeam`
         const headers = {
             method: 'PUT',
             headers: {

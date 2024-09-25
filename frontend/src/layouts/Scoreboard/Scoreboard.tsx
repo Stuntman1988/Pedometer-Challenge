@@ -26,7 +26,7 @@ export const Scoreboard = () => {
     useEffect(() => {
         const fetchTotalSteps = async () => {
             if (isLoggedIn && teamToken) {
-                const url = `http://localhost:8080/api/stepsHistory/totalStepsOfUsers?teamId=${teamToken}`
+                const url = `${import.meta.env.VITE_BACKEND_URL}/stepsHistory/totalStepsOfUsers?teamId=${teamToken}`
                 setTeamId(teamToken)
                     const fetchTotalStepsResponse = await fetch(url)
 
@@ -62,7 +62,7 @@ export const Scoreboard = () => {
     }, [newStepsAdded, isLoggedIn, teamToken, navigate]);
 
     const getTeam = async () => {
-        const url = `http://localhost:8080/api/teams/search/findTeamById?teamId=${teamToken}`
+        const url = `${import.meta.env.VITE_BACKEND_URL}/teams/search/findTeamById?teamId=${teamToken}`
         const fetchTeam = await fetch(url)
 
         if (!fetchTeam.ok) {
