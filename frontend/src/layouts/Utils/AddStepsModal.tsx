@@ -1,5 +1,5 @@
 import {useTranslation} from "react-i18next";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {SpinnerLoading} from "./SpinnerLoading.tsx";
 import {User} from "../../models/User.ts";
 import {AddStepsRequest} from "../../models/AddStepsRequest.ts";
@@ -14,33 +14,40 @@ export const AddStepsModal: React.FC<{setNewStepsAdded: (value: boolean) => void
     const [selectedUser, setSelectedUser] = useState('')
     const [newSteps, setNewSteps] = useState('')
 
-    const modalElement = document.getElementById('addStepsModal');
-    modalElement?.addEventListener('shown.bs.modal', fetchUsers);
+    useEffect(() => {
+        if (!prop.teamId){
+            return
+        }
+        const fetchUsers = async () => {
+            const url = `${import.meta.env.VITE_BACKEND_URL}/users/search/findUsersByTeamId?teamId=${prop.teamId}`
+            const fetchUsersResponse = await fetch(url)
 
-    async function fetchUsers() {
-        const url = `${import.meta.env.VITE_BACKEND_URL}/users/search/findUsersByTeamId?teamId=${prop.teamId}`
-        const fetchUsersResponse = await fetch(url)
+            if (!fetchUsersResponse.ok) {
+                setIsLoading(false)
+                setHttpError("Something went wrong")
+            }
 
-        if (!fetchUsersResponse.ok) {
+            const fetchUsersResponseJson = await fetchUsersResponse.json()
+            const fetchUsersData = fetchUsersResponseJson._embedded.users
+
+            const usersTemp: User[] = []
+
+            for (const key in fetchUsersData) {
+                usersTemp.push({
+                    id: fetchUsersData[key].id,
+                    name: fetchUsersData[key].name,
+                    email: fetchUsersData[key].email,
+                })
+            }
+            setUsers(usersTemp)
             setIsLoading(false)
-            setHttpError("Something went wrong")
         }
+        fetchUsers().catch((err) => {
+            setHttpError(err.message)
+            setIsLoading(false)
+        })
+    }, [prop.teamId]);
 
-        const fetchUsersResponseJson = await fetchUsersResponse.json()
-        const fetchUsersData = fetchUsersResponseJson._embedded.users
-
-        const usersTemp: User[] = []
-
-        for (const key in fetchUsersData) {
-            usersTemp.push({
-                id: fetchUsersData[key].id,
-                name: fetchUsersData[key].name,
-                email: fetchUsersData[key].email,
-            })
-        }
-        setUsers(usersTemp)
-        setIsLoading(false)
-    }
 
     async function saveSteps() {
         const saveStepsData = new AddStepsRequest(Number(selectedUser), Number(newSteps))
@@ -85,7 +92,7 @@ export const AddStepsModal: React.FC<{setNewStepsAdded: (value: boolean) => void
                                 <div className={'input-group mb-3'}>
                                     <select className={'form-select'} aria-label={'Default select example'}
                                             value={selectedUser} onChange={(e) => setSelectedUser(e.target.value)}>
-                                        <option value="">{t('usersList')}</option>
+                                        <option value=''>{t('usersList')}</option>
                                         {users.map((user: User) =>
                                             <option key={user.id} value={user.id}>{user.name}</option>)
                                         }
@@ -102,7 +109,8 @@ export const AddStepsModal: React.FC<{setNewStepsAdded: (value: boolean) => void
                     <div className={'modal-footer'}>
                         <button type={'button'} className={'btn border-secondary'}
                                 data-bs-dismiss={'modal'}>{t('Close')}</button>
-                        <button type={'button'} className={'btn btn-success'} onClick={saveSteps} {...(newSteps && {'data-bs-dismiss': 'modal'})}>
+                        <button type={'button'} className={'btn btn-success'} onClick={saveSteps} {...(newSteps && {'data-bs-dismiss': 'modal'})}
+                        disabled={newSteps === '' || selectedUser === ''}>
                             {t('addStepsButton')}
                         </button>
                     </div>

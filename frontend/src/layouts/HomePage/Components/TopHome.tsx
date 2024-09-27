@@ -17,7 +17,7 @@ export const TopHome = () => {
             </div>
 
             <div className={'d-md-flex d-md-none align-items-center text-center mt-4 p-4'}>
-                <div className={''} >
+                <div className={''}>
                     <h5 className={'display-6'}>{t('topHomeText')}</h5>
                 </div>
                 <div className={''}>

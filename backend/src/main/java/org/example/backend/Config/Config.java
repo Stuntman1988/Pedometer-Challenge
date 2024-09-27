@@ -23,7 +23,7 @@ public class Config implements RepositoryRestConfigurer, WebMvcConfigurer{
             config.exposeIdsFor(Team.class);
 
             cors.addMapping("/**")
-                    .allowedOrigins("http://localhost:5173")
+                    .allowedOrigins("http://localhost:5173", "http://192.168.68.108:5173")
                     .allowedMethods("GET", "POST", "PUT", "DELETE")
                     .allowedHeaders("*");
 
