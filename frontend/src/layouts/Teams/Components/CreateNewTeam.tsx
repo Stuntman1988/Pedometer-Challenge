@@ -1,14 +1,18 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import {useTranslation} from "react-i18next";
+import {User} from "../../../models/User.ts";
+import {useNavigate} from "react-router-dom";
 
 
-export const CreateNewTeam = () => {
+export const CreateNewTeam: React.FC<{ user: User }> = (prop) => {
 
     const {t} = useTranslation();
     const [stepGoal, setStepGoal] = useState('');
 
+    const navigate = useNavigate();
+
     const createNewTeam = async () => {
-        const url = `${import.meta.env.VITE_BACKEND_URL}/team/createNewTeam?stepGoal=${Number(stepGoal)}`
+        const url = `${import.meta.env.VITE_BACKEND_URL}/team/createNewTeam?stepGoal=${Number(stepGoal)}&userId=${prop.user.id}`
         const headers = {
             method: 'POST',
             headers: {
@@ -19,8 +23,10 @@ export const CreateNewTeam = () => {
         if (!response.ok) {
             throw new Error('Something went wrong') //TODO: Skapa felmeddelande.
         }
+        const responseJson = await response.json()
+        localStorage.setItem('teamToken', responseJson)
+        navigate('/scoreboard')
         setStepGoal('')
-
     }
 
     return (

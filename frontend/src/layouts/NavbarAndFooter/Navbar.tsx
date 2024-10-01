@@ -35,9 +35,6 @@ export const Navbar = () => {
                                 <li className="nav-item">
                                     <NavLink to={'/scoreboard'} className="nav-link">{t('Scoreboard')}</NavLink>
                                 </li>
-                                <li className="nav-item">
-                                    <NavLink to={'/team'} className="nav-link">{t('Teams')}</NavLink> {/*TODO: Ska kanske inte vara som knapp*/}
-                                </li>
                             </>
                         }
                     </ul>

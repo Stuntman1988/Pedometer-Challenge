@@ -8,6 +8,7 @@ import {LoginPage} from "./layouts/Login/LoginPage.tsx";
 import {SecureRoute} from "./auth/SecureRoute.tsx";
 import {Footer} from "./layouts/NavbarAndFooter/Footer.tsx";
 import {Team} from "./layouts/Teams/Team.tsx";
+import {RegisterUser} from "./layouts/RegisterUser/RegisterUser.tsx";
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
                     <Route path='/' element={<Navigate to='/home'/>}/>
                     <Route path='/home' element={<HomePage/>}/>
                     <Route path='/login' element={<LoginPage/>}/>
+                    <Route path='/register' element={<RegisterUser/>}/>
                     <Route path='/scoreboard' element={<SecureRoute comp={Scoreboard}/>}/>
                     <Route path='/team' element={<SecureRoute comp={Team}/>}/>
                 </Routes>

@@ -77,7 +77,7 @@ export const Team = () => {
                         <FontAwesomeIcon icon={faArrowDown} className={'fs-2'}/>
                     </p>
                     <div className={''}>
-                        <CreateNewTeam/>
+                        <CreateNewTeam user={user}/>
                     </div>
                 </>
             }

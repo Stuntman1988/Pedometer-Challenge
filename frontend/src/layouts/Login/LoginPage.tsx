@@ -91,34 +91,40 @@ export const LoginPage = () => {
             setIsValid(false)
         }
         fetchUser().catch((error) => {
-            console.log('ERROR: ', error)
+            console.log('Login: ', error)
         })
     }, [isValid])
 
+    const handleSubmit = (event: { preventDefault: () => void; }) => {
+        event.preventDefault()
+        validateSignIn()
+    }
+
     return (
-        <div className="container d-flex justify-content-center mt-5">
-            <div className="border rounded d-inline-block p-5 shadow">
-                <form onSubmit={validateSignIn}>
+        <div className={'container d-flex justify-content-center mt-5'}>
+            <div className={'border rounded d-inline-block p-5 shadow'} style={{maxWidth: '350px', width: '100%'}}>
+                <form onSubmit={handleSubmit} noValidate>
 
-                    <div className="form-outline mb-4">
-                        <label className="form-label" htmlFor="email">{t('Email')}</label>
-                        <input type="email" id="email" className="form-control"
+                    <h4 className={'form-label mb-3 text-center'}>{t('signIn')}</h4>
+
+                    <div className={'form-outline mb-4'}>
+                        <label className={'form-label'} htmlFor={'email'}>{t('Email')}</label>
+                        <input type={'email'} id={'email'} className={'form-control'}
                                onChange={e => setEmail(e.target.value)}/>
-                        {emailError && <p className="form-text text-danger">{emailError}</p>}
+                        {emailError && <p className={'form-text text-danger'}>{emailError}</p>}
                     </div>
 
-                    <div className="form-outline mb-4">
-                        <label className="form-label" htmlFor="password">{t('Password')}</label>
-                        <input type="password" id="password" className="form-control"
+                    <div className={'form-outline mb-4'}>
+                        <label className={'form-label'} htmlFor={'password'}>{t('Password')}</label>
+                        <input type={'password'} id={'password'} className={'form-control'}
                                onChange={e => setPassword(e.target.value)}/>
-                        {passwordError && <p className="form-text text-danger">{passwordError}</p>}
+                        {passwordError && <p className={'form-text text-danger'}>{passwordError}</p>}
                     </div>
 
-                    <button type="button" className="btn btn-primary mb-4"
-                            onClick={() => validateSignIn()}>{t('signIn')}</button>
+                    <button type={'submit'} className={'btn btn-primary mb-4'}>{t('signIn')}</button>
 
-                    <div className="text-center">
-                        <p>{t('NotAMember')} <a href="#">{t('Register')}</a></p>
+                    <div className={'text-center'}>
+                        <p>{t('NotAMember')} <a href={'/register'}>{t('Register')}</a></p>
                     </div>
 
                 </form>

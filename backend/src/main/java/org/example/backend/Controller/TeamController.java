@@ -17,7 +17,7 @@ public class TeamController {
     }
 
     @PostMapping("/createNewTeam")
-    public void createNewTeam(@RequestParam long stepGoal) {
-        teamService.createNewTeam(stepGoal);
+    public long createNewTeam(@RequestParam long stepGoal, @RequestParam long userId) throws Exception {
+        return teamService.createNewTeam(stepGoal, userId);
     }
 }

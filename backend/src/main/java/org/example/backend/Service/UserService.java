@@ -48,4 +48,16 @@ public class UserService {
         }
         return argon2Service.verifyPassword(userPassArray[1], user.get().getPassword());
     }
+
+    public void registerUser(User user) throws Exception {
+        Optional<User> existedUser = userRepo.findUserByEmail(user.getEmail());
+        if (existedUser.isPresent()) {
+            throw new Exception("User already exists");
+        }
+        User newUser = new User();
+        newUser.setName(user.getName());
+        newUser.setEmail(user.getEmail());
+        newUser.setPassword(argon2Service.hashPassword(user.getPassword()));
+        userRepo.save(newUser);
+    }
 }

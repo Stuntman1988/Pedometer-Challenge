@@ -2,6 +2,7 @@ package org.example.backend.Entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
 
@@ -17,6 +18,7 @@ public class Team {
     @Column(name = "steps_goal")
     private long stepsGoal;
 
+    @CreationTimestamp
     @Column(name = "created_at")
     private Date createdAt;
 

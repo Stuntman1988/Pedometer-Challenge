@@ -18,7 +18,7 @@ export const Footer = () => {
             <footer className={'d-flex align-items-center px-3 py-3 bg-body-tertiary fixed-bottom'}>
                 <p className={'col-md-6 mb-0'}>© {t('head_label')}
                 </p>
-                <div className={'d-flex align-items-center ms-auto'}>
+                <div className={'d-flex align-items-center mt-2 ms-auto'}>
                     <p className={'me-2 mb-1 fs-6'}>{t('change_lng')}:</p>
                     <button
                         className={'btn border border-success d-flex justify-content-center align-items-center'}

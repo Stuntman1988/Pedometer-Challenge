@@ -1,5 +1,6 @@
 package org.example.backend.Controller;
 
+import org.example.backend.Entity.User;
 import org.example.backend.RequestModels.AddToTeamRequest;
 import org.example.backend.Service.Argon2Service;
 import org.example.backend.Service.UserService;
@@ -27,5 +28,10 @@ public class UserController {
     @GetMapping("/checkPassword")
     public boolean checkPassword(@RequestHeader(value = "userPass") String userPass) throws Exception {
         return userService.verifyPassword(userPass);
+    }
+
+    @PostMapping("/registerUser")
+    public void registerUser(@RequestBody User user) throws Exception {
+        userService.registerUser(user);
     }
 }
