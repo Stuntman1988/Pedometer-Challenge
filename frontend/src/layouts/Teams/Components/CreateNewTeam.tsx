@@ -29,6 +29,15 @@ export const CreateNewTeam: React.FC<{ user: User }> = (prop) => {
         setStepGoal('')
     }
 
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        try {
+            await createNewTeam()
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     return (
         <div className={'card'}>
             <div className={'card-header text-center'}>
@@ -38,7 +47,7 @@ export const CreateNewTeam: React.FC<{ user: User }> = (prop) => {
                 <h6 className={'card-subtitle mb-2 text-body-secondary'}>{t('setATarget')}</h6>
             </div>
             <div className={'card-body text-center'}>
-                <form className={'row justify-content-center align-items-center'}>
+                <form className={'row justify-content-center align-items-center'} onSubmit={handleSubmit}>
                     <div className={'col-4 text-end'}>
                         <label htmlFor={'teamIdInput'} className={'form-label'}>{t('stepGoal')}</label>
                     </div>
@@ -47,7 +56,7 @@ export const CreateNewTeam: React.FC<{ user: User }> = (prop) => {
                                onChange={e => setStepGoal(e.target.value)}/>
                     </div>
                     <div className={'col-4 text-start'}>
-                        <button type={'button'} className={'btn btn-success'} onClick={createNewTeam}
+                        <button type={'submit'} className={'btn btn-success'}
                                 disabled={stepGoal === ''}>Start!
                         </button>
                     </div>

@@ -13,7 +13,7 @@ export const Progressbar: React.FC<{ data: TotalStepsOfUsers, team?: Team }> = (
 
     return (
         <div className={'mt-3'}>
-            <p className={'form-label'}>{prop.data.name} - {prop.data.totalSteps} {t('steps')}
+            <p className={'form-label'}>{prop.data.name} - {prop.data.totalSteps.toLocaleString('sv-SE')} {t('steps')}
             </p>
             <div className={'progress bg-light bg-opacity-25'} role={'progressbar'}
                  aria-label={'Animated striped example'}

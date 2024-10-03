@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react"
+import React, {useEffect, useState} from "react"
 import {useNavigate} from "react-router-dom"
 import {useAuth} from "../../auth/AuthContext.tsx";
 import {User} from "../../models/User.ts";
@@ -95,7 +95,7 @@ export const LoginPage = () => {
         })
     }, [isValid])
 
-    const handleSubmit = (event: { preventDefault: () => void; }) => {
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         validateSignIn()
     }

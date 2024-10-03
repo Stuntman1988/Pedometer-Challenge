@@ -1,5 +1,5 @@
 import {useTranslation} from "react-i18next";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {User} from "../../models/User.ts";
 import {useNavigate} from "react-router-dom";
 
@@ -83,7 +83,7 @@ export const RegisterUser = () => {
     }, [isValid]);
 
 
-    const handleSubmit = (event: { preventDefault: () => void; }) => {
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         ValidateRegister()
     }

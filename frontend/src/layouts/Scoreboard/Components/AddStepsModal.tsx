@@ -1,8 +1,8 @@
 import {useTranslation} from "react-i18next";
 import React, {useEffect, useState} from "react";
-import {SpinnerLoading} from "./SpinnerLoading.tsx";
-import {User} from "../../models/User.ts";
-import {AddStepsRequest} from "../../models/AddStepsRequest.ts";
+import {SpinnerLoading} from "../../Utils/SpinnerLoading.tsx";
+import {User} from "../../../models/User.ts";
+import {AddStepsRequest} from "../../../models/AddStepsRequest.ts";
 
 
 export const AddStepsModal: React.FC<{setNewStepsAdded: (value: boolean) => void, teamId: string}> = (prop) => {
@@ -49,7 +49,7 @@ export const AddStepsModal: React.FC<{setNewStepsAdded: (value: boolean) => void
     }, [prop.teamId]);
 
 
-    async function saveSteps() {
+    const saveSteps = async () => {
         const saveStepsData = new AddStepsRequest(Number(selectedUser), Number(newSteps))
 
         const url = `${import.meta.env.VITE_BACKEND_URL}/stepsHistory/addSteps`
@@ -71,13 +71,22 @@ export const AddStepsModal: React.FC<{setNewStepsAdded: (value: boolean) => void
         setSelectedUser('')
     }
 
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        try {
+            await saveSteps()
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
 
     return (
         <div className={'modal fade'} id={'addStepsModal'} data-bs-backdrop={'static'} data-bs-keyboard={'false'}
              tabIndex={-1}
              aria-labelledby={'addStepsModalLabel'} aria-hidden={'true'}>
             <div className={'modal-dialog'}>
-                <div className={'modal-content'}>
+                <form className={'modal-content'} onSubmit={handleSubmit}>
                     <div className={'modal-header'}>
                         <h1 className={'modal-title fs-5'} id={'addStepsModalLabel'}>{t('addSteps')}</h1>
                         <button type={'button'} className={'btn-close'} data-bs-dismiss={'modal'}
@@ -109,12 +118,12 @@ export const AddStepsModal: React.FC<{setNewStepsAdded: (value: boolean) => void
                     <div className={'modal-footer'}>
                         <button type={'button'} className={'btn border-secondary'}
                                 data-bs-dismiss={'modal'}>{t('Close')}</button>
-                        <button type={'button'} className={'btn btn-success'} onClick={saveSteps} {...(newSteps && {'data-bs-dismiss': 'modal'})}
+                        <button type={'submit'} className={'btn btn-success'} {...(newSteps && {'data-bs-dismiss': 'modal'})}
                         disabled={newSteps === '' || selectedUser === ''}>
                             {t('addStepsButton')}
                         </button>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
 

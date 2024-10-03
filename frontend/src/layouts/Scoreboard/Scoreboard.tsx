@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import {TotalStepsOfUsers} from "../../models/TotalStepsOfUsers.ts";
 import {SpinnerLoading} from "../Utils/SpinnerLoading.tsx";
 import {useTranslation} from "react-i18next";
-import {AddStepsModal} from "../Utils/AddStepsModal.tsx";
+import {AddStepsModal} from "./Components/AddStepsModal.tsx";
 import {useAuth} from "../../auth/AuthContext.tsx";
 import {useNavigate} from "react-router-dom";
 import {Team} from "../../models/Team.ts";
@@ -94,7 +94,7 @@ export const Scoreboard = () => {
             <h1 className={'text-center'}>{t('label_scoreboard')}</h1>
             <div className={'row mt-4'}>
                 <h5 className={'col text-start'}>Team ID: {team?.id}</h5>
-                <h5 className={'col text-end'}>{t('stepGoal')}: {team?.stepsGoal ?? 0}</h5>
+                <h5 className={'col text-end'}>{t('stepGoal')}: {team?.stepsGoal.toLocaleString('sv-SE') ?? 0}</h5>
             </div>
             {totalStepsOfUser.map((t, index) => (
                 <Progressbar data={t} team={team} key={index}/>
