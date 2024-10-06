@@ -3,6 +3,7 @@ import {useNavigate} from "react-router-dom"
 import {useAuth} from "../../auth/AuthContext.tsx";
 import {User} from "../../models/User.ts";
 import {useTranslation} from "react-i18next";
+import {showConfirm} from "../Utils/AlertModal.ts"
 
 
 export const LoginPage = () => {
@@ -86,7 +87,10 @@ export const LoginPage = () => {
             if (passwordIsOk) {
                 const newUser = new User(fetchUserResponseJson.id, fetchUserResponseJson.name, fetchUserResponseJson.email, teamId)
                 login(newUser)
+                showConfirm('You have successfully logged in')
                 navigate('/scoreboard')
+            } else {
+                setPasswordError('Password incorrect!')
             }
             setIsValid(false)
         }
