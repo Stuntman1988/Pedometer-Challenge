@@ -10,6 +10,10 @@
   "Teams": "Team",
   "logOut": "Logga ut",
   "signIn": "Logga in",
+  "Days": "Dagar",
+  "Week": "Vecka",
+  "SessionExpired": "Sessionen har löpt ut",
+  "YouLogOut": "Du har blivit utloggad!",
 
   "addSteps": "Lägg till steg",
   "addStepsButton": "Lägg till",
@@ -30,5 +34,13 @@
   "addMe": "Lägg till mig!",
   "orCreateNewTeam": "eller skapa ett nytt team och bjud in dina vänner",
   "createNewTeam": "Skapa ett nytt team och utmana dina vänner.",
-  "setATarget": "Sätt ett mål och börja gå!"
+  "setATarget": "Sätt ett mål och börja gå!",
+
+  "CanNotBeEmpty": "Kan inte vara tomt",
+  "NotAValidEmail": "Inte en giltig mailadress",
+  "EmailNotRegistered": "Mailadress är inte registrerad",
+  "PasswordIncorrect": "Lösenordet är felaktigt",
+  "SuccessfullyLoggedIn": "Du är inloggad",
+
+  "error": "Nått gick fel"
 }

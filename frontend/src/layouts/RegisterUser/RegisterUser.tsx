@@ -24,25 +24,25 @@ export const RegisterUser = () => {
         const emailPattern = /[a-zA-Z0-9]+@[a-zA-Z]+\.[a-zA-Z]{2,3}/;
 
         if (!name) {
-            setNameError('Can not be empty!')
+            setNameError(`${t('CanNotBeEmpty')}`)
         } else {
             setNameError('')
             isNameValid = true
         }
 
         if (!email) {
-            setEmailError('Can not be empty!')
+            setEmailError(`${t('CanNotBeEmpty')}`)
         } else if (!emailPattern.test(email)) {
-            setEmailError('Not a valid email')
+            setEmailError(`${t('NotAValidEmail')}`)
         } else {
             setEmailError('')
             isEmailValid = true
         }
 
         if (!password) {
-            setPasswordError('Can not be empty!')
+            setPasswordError(`${t('CanNotBeEmpty')}`)
         } else if (password.length < 6) {
-            setPasswordError('Password must be at least 6 characters')
+            setPasswordError(`${t('PasswordMustBe')}`)
         } else {
             setPasswordError('')
             isPasswordValid = true
@@ -69,7 +69,7 @@ export const RegisterUser = () => {
             }
             const fetchUserResponse = await fetch(urlFetchUser, headers)
             if (!fetchUserResponse.ok) {
-                setEmailError('Email already registered!')
+                setEmailError(`${t('EmailAlreadyReg')}`)
                 setIsValid(false)
                 return
             }
@@ -117,7 +117,9 @@ export const RegisterUser = () => {
                         {passwordError && <p className={'form-text text-danger'}>{passwordError}</p>}
                     </div>
 
-                    <button type={'submit'} className={'btn btn-primary mt-2'}>{t('Register')}</button>
+                    <div className={'d-flex justify-content-center'}>
+                        <button type={'submit'} className={'btn btn-primary mt-2'}>{t('Register')}</button>
+                    </div>
 
                 </form>
             </div>

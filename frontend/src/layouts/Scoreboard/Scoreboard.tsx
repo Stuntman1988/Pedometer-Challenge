@@ -22,31 +22,35 @@ export const Scoreboard = () => {
     const [teamId, setTeamId] = useState('')
     const [team, setTeam] = useState<Team>()
 
+    const [diffInDays, setDiffInDays] = useState(0)
+    const [diffInWeeks, setDiffInWeeks] = useState(0)
+    const [daysOrWeeks, setDaysOrWeeks] = useState(false)
+
 
     useEffect(() => {
         const fetchTotalSteps = async () => {
             if (isLoggedIn && teamToken) {
                 const url = `${import.meta.env.VITE_BACKEND_URL}/stepsHistory/totalStepsOfUsers?teamId=${teamToken}`
                 setTeamId(teamToken)
-                    const fetchTotalStepsResponse = await fetch(url)
+                const fetchTotalStepsResponse = await fetch(url)
 
-                    if (!fetchTotalStepsResponse.ok) {
-                        setIsLoading(false)
-                        setHttpError("Something went wrong")
-                        return
-                    }
+                if (!fetchTotalStepsResponse.ok) {
+                    setIsLoading(false)
+                    setHttpError(`${t('error')}`)
+                    return
+                }
 
-                    const fetchTotalStepsResponseJson = await fetchTotalStepsResponse.json()
-                    const tempList: TotalStepsOfUsers[] = []
-                    for (const key in fetchTotalStepsResponseJson) {
-                        tempList.push({
-                            name: fetchTotalStepsResponseJson[key].name,
-                            totalSteps: fetchTotalStepsResponseJson[key].totalSteps
-                        })
-                    }
+                const fetchTotalStepsResponseJson = await fetchTotalStepsResponse.json()
+                const tempList: TotalStepsOfUsers[] = []
+                for (const key in fetchTotalStepsResponseJson) {
+                    tempList.push({
+                        name: fetchTotalStepsResponseJson[key].name,
+                        totalSteps: fetchTotalStepsResponseJson[key].totalSteps
+                    })
+                }
 
-                    setTotalStepsOfUser(tempList)
-                    setNewStepsAdded(false)
+                setTotalStepsOfUser(tempList)
+                setNewStepsAdded(false)
             } else if (teamToken === null) {
                 navigate('/team')
                 return
@@ -66,13 +70,19 @@ export const Scoreboard = () => {
         const fetchTeam = await fetch(url)
 
         if (!fetchTeam.ok) {
-            setHttpError("Something went wrong")
+            setHttpError(`${t('error')}`)
             return
         }
 
         const fetchTeamJson = await fetchTeam.json()
 
         setTeam(new Team(fetchTeamJson.id, fetchTeamJson.stepsGoal, fetchTeamJson.createdAt))
+
+        const diffInMilliseconds = new Date().getTime() - new Date(fetchTeamJson.createdAt).getTime()
+        const diffInDays = Math.round(diffInMilliseconds / (24 * 60 * 60 * 1000))
+        const diffInWeeks = Math.floor(diffInDays / 7)
+        setDiffInDays(diffInDays)
+        setDiffInWeeks(diffInWeeks)
     }
 
     if (httpError) {
@@ -94,6 +104,18 @@ export const Scoreboard = () => {
             <h1 className={'text-center'}>{t('label_scoreboard')}</h1>
             <div className={'row mt-4'}>
                 <h5 className={'col text-start'}>Team ID: {team?.id}</h5>
+
+                <button className={'btn col-2 btn-dark text-dark-emphasis'}
+                        onClick={() => setDaysOrWeeks(!daysOrWeeks)}>
+                    <span className={'h5'}>
+                        {daysOrWeeks ?
+                            `${t('Days')}: ${diffInDays}`
+                            :
+                            `${t('Week')}: ${diffInWeeks}`
+                        }
+                    </span>
+                </button>
+
                 <h5 className={'col text-end'}>{t('stepGoal')}: {team?.stepsGoal.toLocaleString('sv-SE') ?? 0}</h5>
             </div>
             {totalStepsOfUser.map((t, index) => (

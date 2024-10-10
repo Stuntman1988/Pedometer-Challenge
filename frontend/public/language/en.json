@@ -10,6 +10,10 @@
   "Teams": "Team",
   "logOut": "Log out",
   "signIn": "Sign in",
+  "Days": "Days",
+  "Week": "Week",
+  "SessionExpired": "Session has expired",
+  "YouLogOut": "You have been logged out!",
 
   "addSteps": "Add steps",
   "addStepsButton": "Add",
@@ -30,5 +34,16 @@
   "addMe": "Add me!",
   "orCreateNewTeam": "or create a new team and invite your friends",
   "createNewTeam": "Create a new team to challenge your friends",
-  "setATarget": "Set att target and start walking!"
+  "setATarget": "Set att target and start walking!",
+
+  "CanNotBeEmpty": "Can not be empty",
+  "NotAValidEmail": "Not a valid email",
+  "EmailNotRegistered": "Email not registered",
+  "PasswordIncorrect": "Password is incorrect",
+  "SuccessfullyLoggedIn": "You have successfully logged in",
+  "PasswordMustBe": "Password must be at least 6 characters",
+  "EmailAlreadyReg": "Email already registered!",
+
+  "error": "Something went wrong"
+
 }

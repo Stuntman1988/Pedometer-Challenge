@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom"
 import {useAuth} from "../../auth/AuthContext.tsx";
 import {User} from "../../models/User.ts";
 import {useTranslation} from "react-i18next";
-import {showConfirm} from "../Utils/AlertModal.ts"
+import {AlertModal} from "../Utils/AlertModal.ts"
 
 
 export const LoginPage = () => {
@@ -24,16 +24,16 @@ export const LoginPage = () => {
         const emailPattern = /[a-zA-Z0-9]+@[a-zA-Z]+\.[a-zA-Z]{2,3}/;
 
         if (!email) {
-            setEmailError('Can not be empty!')
+            setEmailError(`${t('CanNotBeEmpty')}`)
         } else if (!emailPattern.test(email)) {
-            setEmailError('Not a valid email')
+            setEmailError(`${t('NotAValidEmail')}`)
         } else {
             setEmailError('')
             isEmailValid = true
         }
 
         if (!password) {
-            setPasswordError('Can not be empty!')
+            setPasswordError(`${t('CanNotBeEmpty')}`)
         } else {
             setPasswordError('')
             isPasswordValid = true
@@ -53,7 +53,7 @@ export const LoginPage = () => {
             const urlFetchUser = `${import.meta.env.VITE_BACKEND_URL}/users/search/findUserByEmail?email=${email}`
             const fetchUserResponse = await fetch(urlFetchUser)
             if (!fetchUserResponse.ok) {
-                setEmailError('Email not registered!')
+                setEmailError(`${t('EmailNotRegistered')}`)
                 setIsValid(false)
                 return
             }
@@ -68,7 +68,7 @@ export const LoginPage = () => {
             }
             const verifyPasswordResponse = await fetch(urlVerifyPassword, headers)
             if (!verifyPasswordResponse.ok) {
-                setPasswordError('Password incorrect!')
+                setPasswordError(`${t('PasswordIncorrect')}`)
                 setIsValid(false)
                 return
             }
@@ -87,10 +87,10 @@ export const LoginPage = () => {
             if (passwordIsOk) {
                 const newUser = new User(fetchUserResponseJson.id, fetchUserResponseJson.name, fetchUserResponseJson.email, teamId)
                 login(newUser)
-                showConfirm('You have successfully logged in')
+                AlertModal.showConfirm(`${t('SuccessfullyLoggedIn')}`)
                 navigate('/scoreboard')
             } else {
-                setPasswordError('Password incorrect!')
+                setPasswordError(`${t('PasswordIncorrect')}`)
             }
             setIsValid(false)
         }
@@ -125,10 +125,12 @@ export const LoginPage = () => {
                         {passwordError && <p className={'form-text text-danger'}>{passwordError}</p>}
                     </div>
 
-                    <button type={'submit'} className={'btn btn-primary mb-4'}>{t('signIn')}</button>
+                    <div className={'d-flex justify-content-center'}>
+                        <button type={'submit'} className={'btn btn-primary mb-4'}>{t('signIn')}</button>
+                    </div>
 
                     <div className={'text-center'}>
-                        <p>{t('NotAMember')} <a href={'/register'}>{t('Register')}</a></p>
+                    <p>{t('NotAMember')} <a href={'/register'}>{t('Register')}</a></p>
                     </div>
 
                 </form>
