@@ -35,12 +35,15 @@ export const Navbar = () => {
                                 <li className="nav-item">
                                     <NavLink to={'/scoreboard'} className="nav-link">{t('Scoreboard')}</NavLink>
                                 </li>
+                                <li className="nav-item">
+                                    <NavLink to={'/myPage'} className="nav-link">{t('MyPage')}</NavLink>
+                                </li>
                             </>
                         }
                     </ul>
                     <ul className='navbar-nav ms-auto'>
                         <li className='nav-item m-1'>
-                            {isLoggedIn ?
+                        {isLoggedIn ?
                                 <button type='button' className='btn btn-outline-danger' onClick={handleLogout}>
                                     {t('logOut')}
                                 </button>

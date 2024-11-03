@@ -5,6 +5,7 @@ import org.example.backend.ResponseModels.TotalStepsOfUsers;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -18,4 +19,6 @@ public interface StepsHistoryRepo extends JpaRepository<StepsHistory, Long> {
             "GROUP BY u.id " +
             "ORDER BY COALESCE(SUM(sh.steps), 0) DESC")
     List<TotalStepsOfUsers> getTotalStepsOfUsers(@Param("teamId") int teamsId);
+
+    List<StepsHistory> findStepsHistoriesByUserId(@RequestParam("user_id") long userId);
 }

@@ -9,6 +9,7 @@ import {SecureRoute} from "./auth/SecureRoute.tsx";
 import {Footer} from "./layouts/NavbarAndFooter/Footer.tsx";
 import {Team} from "./layouts/Teams/Team.tsx";
 import {RegisterUser} from "./layouts/RegisterUser/RegisterUser.tsx";
+import {MyPage} from "./layouts/MyPage/MyPage.tsx";
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
                     <Route path='/register' element={<RegisterUser/>}/>
                     <Route path='/scoreboard' element={<SecureRoute comp={Scoreboard}/>}/>
                     <Route path='/team' element={<SecureRoute comp={Team}/>}/>
+                    <Route path='/myPage' element={<SecureRoute comp={MyPage}/>}/>
                 </Routes>
                 <Footer/>
             </AuthProvider>

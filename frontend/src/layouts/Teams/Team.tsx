@@ -24,6 +24,7 @@ export const Team = () => {
                 const response = await fetch(url)
 
                 if (!response.ok) {
+                    setIsLoading(false)
                     setHttpError('Something went wrong!')
                     return
                 }
