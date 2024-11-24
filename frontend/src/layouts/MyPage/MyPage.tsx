@@ -3,6 +3,8 @@ import {User} from '../../models/User.ts';
 import {useAuth} from '../../auth/AuthContext.tsx';
 import {SpinnerLoading} from "../Utils/SpinnerLoading.tsx";
 import {StepsHistory} from "../../models/StepsHistory.ts";
+import {StepsHistoryComp} from "./Components/StepsHistoryComp.tsx";
+import {PersonalInfo} from "./Components/PersonalInfo.tsx";
 
 export const MyPage = () => {
 
@@ -14,6 +16,8 @@ export const MyPage = () => {
     const [user, setUser] = useState<User>()
     const [haveTeamId, setHaveTeamId] = useState(false)
     const [stepsHistoryOfUser, setStepsHistoryOfUser] = useState<StepsHistory[]>([])
+    const [totalSteps, setTotalSteps] = useState(0)
+    const [newStepsAdded, setNewStepsAdded] = useState(false)
 
 
     useEffect(() => {
@@ -48,11 +52,12 @@ export const MyPage = () => {
             setIsLoading(false)
             setHttpError(error.message)
         })
-    }, [haveTeamId, isLoggedIn]);
+    }, [newStepsAdded, haveTeamId, isLoggedIn]);
 
 
     const fetchStepsHistory = async () => {
-        if (!user) {
+        if (!user && !haveTeamId) {
+            setIsStepsHistoryLoading(false)
             return
         }
         const url = `${import.meta.env.VITE_BACKEND_URL}/stepsHistories/search/findStepsHistoriesByUserId?userId=${user?.id}`
@@ -68,25 +73,19 @@ export const MyPage = () => {
         const stepsHistoryResponseJsonData = stepsHistoryResponseJson._embedded.stepsHistories
 
         const stepsHistoryOfUserTemp: StepsHistory[] = []
+        let totalStepsTemp = 0
         for (const key in stepsHistoryResponseJsonData) {
             stepsHistoryOfUserTemp.push({
                 id: stepsHistoryResponseJsonData[key].id,
                 steps: stepsHistoryResponseJsonData[key].steps,
                 createdAt: stepsHistoryResponseJsonData[key].createdAt
             })
+            totalStepsTemp += stepsHistoryResponseJsonData[key].steps
         }
+        setTotalSteps(totalStepsTemp)
         setIsStepsHistoryLoading(false)
+        setNewStepsAdded(false)
         setStepsHistoryOfUser(stepsHistoryOfUserTemp)
-    }
-
-    function parseDate(date: Date) {
-        const newDate = new Date(date)
-        return new Intl.DateTimeFormat("en-US", {dateStyle: "medium"}).format(newDate);
-    }
-
-    function parseTime(date: Date) {
-        const newDate = new Date(date)
-        return new Intl.DateTimeFormat("en-US", {timeStyle: "short", hour12: false}).format(newDate);
     }
 
 
@@ -107,51 +106,35 @@ export const MyPage = () => {
 
     return (
         <div className={'container mt-4'}>
-            <div className={'row justify-content-between'}>
-                <div className={'col-10 col-md-6 mb-3 mx-auto card'}>
+            <div className={'row align-items-start'}>
+                <div className={'col-12 col-md-7 mb-3 mx-auto card'}>
                     <h5 className={'card-header'}>Steghistorik</h5>
                     <div className={'card-body'}>
-                        <h5 className={'card-title'}>Special title treatment</h5>
-                        {isStepsHistoryLoading ?
+                        <div className={'row'}>
+                            <h5 className={'card-title col-4'}>Antal steg</h5>
+                            <h5 className={'card-title col-6'}>Datum tillagt</h5>
+                        </div>
+
+                        {isStepsHistoryLoading || user == undefined ?
                             <SpinnerLoading/>
                             :
                             <>
                                 {httpStepsHistoryError ?
                                     <p className={'card-text'}>{httpStepsHistoryError}</p>
                                     :
-                                    <>
-                                        {
-                                            stepsHistoryOfUser.map(sh => (
-                                                <li className='border' key={sh.id} style={{listStyle: "none"}}>
-                                                    <div className='row p-1'>
-                                                        <p className='col-7 mb-0'>{sh.steps} steg</p>
-                                                        <p className='col-5 mb-0'>{parseDate(sh.createdAt)} - {parseTime(sh.createdAt)}</p>
-                                                    </div>
-                                                </li>
-                                            ))
-                                        }
-                                    </>
+                                    <StepsHistoryComp user={user}
+                                                      stepsHistoryOfUser={stepsHistoryOfUser}
+                                                      totalSteps={totalSteps}
+                                                      setNewStepsAdded={setNewStepsAdded}/>
                                 }
                             </>
                         }
 
-                        <a href={'#'} className={'btn btn-primary'}>Go somewhere</a>
                     </div>
                 </div>
-
-
-                <div className={'col-7 col-md-4 myPageMargin mb-3 card'}>
-                    <h5 className={'card-header'}>Personlig information</h5>
-                    <div className={'card-body'}>
-                        <ul className={'list-unstyled fs-6'}>
-                            <li className={''}>Namn: {user?.name}</li>
-                            <li className={''}>Email: {user?.email}</li>
-                            <li className={''}>ID: {user?.id}</li>
-                            <li className={''}>TeamID: {user?.teamId}</li>
-                        </ul>
-                        <a href={'#'} className={'btn btn-primary'}>Go somewhere</a>
-                    </div>
-                </div>
+                {user !== undefined &&
+                    <PersonalInfo user={user}/>
+                }
             </div>
         </div>
     )

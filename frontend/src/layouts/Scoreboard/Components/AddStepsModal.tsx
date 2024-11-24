@@ -5,7 +5,7 @@ import {User} from "../../../models/User.ts";
 import {AddStepsRequest} from "../../../models/AddStepsRequest.ts";
 
 
-export const AddStepsModal: React.FC<{setNewStepsAdded: (value: boolean) => void, teamId: string}> = (prop) => {
+export const AddStepsModal: React.FC<{setNewStepsAdded?: (value: boolean) => void, teamId: string}> = (prop) => {
 
     const {t} = useTranslation();
     const [httpError, setHttpError] = useState('')
@@ -66,7 +66,9 @@ export const AddStepsModal: React.FC<{setNewStepsAdded: (value: boolean) => void
             throw new Error('Something went wrong') //TODO: skapa ett felmeddealnde som kommer upp
         }
 
-        prop.setNewStepsAdded(true)
+        if (prop.setNewStepsAdded) {
+            prop.setNewStepsAdded(true)
+        }
         setNewSteps('')
         setSelectedUser('')
     }
