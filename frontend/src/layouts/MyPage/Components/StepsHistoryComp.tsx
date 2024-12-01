@@ -7,19 +7,34 @@ import {StepsHistory} from "../../../models/StepsHistory.ts";
 export const StepsHistoryComp: React.FC<{user: User, stepsHistoryOfUser: StepsHistory[], totalSteps: number, setNewStepsAdded?: (value: boolean) => void}> = (prop) => {
 
 
-    function parseDate(date: Date) {
+    const parseDate = (date: Date) => {
         const newDate = new Date(date)
         return new Intl.DateTimeFormat("en-US", {dateStyle: "medium"}).format(newDate);
     }
 
-    function parseTime(date: Date) {
+    const parseTime = (date: Date) => {
         const newDate = new Date(date)
         return new Intl.DateTimeFormat("en-US", {timeStyle: "short", hour12: false}).format(newDate);
     }
 
-    // const removeSteps = async => {
-    //
-    // }
+    const removeSteps = async(stepId: number) => {
+        const url = `${import.meta.env.VITE_BACKEND_URL}/stepsHistory/deleteStepsHistory?stepId=${stepId}`
+        const headers = {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+        const fetchDeleteFetchHistory = await fetch(url, headers)
+
+        if (!fetchDeleteFetchHistory) {
+            console.log("Skapa en popup med fel") //TODO
+            return
+        }
+
+        prop.setNewStepsAdded?.(true)
+
+    }
 
     return (
         <>
@@ -32,7 +47,7 @@ export const StepsHistoryComp: React.FC<{user: User, stepsHistoryOfUser: StepsHi
                             <p className='col-4 mb-0'>{sh.steps} steg</p>
                             <p className='col-5 col-md-6 mb-0'>{parseDate(sh.createdAt)} - {parseTime(sh.createdAt)}</p>
                             <button className={'col-2 btn btn-danger btn-sm ms-2'}
-                                    style={{maxWidth: "65px"}}>Ta bort
+                                    style={{maxWidth: "65px"}} onClick={() => removeSteps(sh.id)}>Ta bort
                             </button>
                         </div>
                     </li>

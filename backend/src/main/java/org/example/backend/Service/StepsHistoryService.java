@@ -44,4 +44,14 @@ public class StepsHistoryService {
         return true;
     }
 
+    public boolean deleteStepsHistory(long stepId) {
+        Optional<StepsHistory> sh = stepsHistoryRepo.findById(stepId);
+        if (sh.isEmpty()) {
+            log.error("Step not found");
+            return false;
+        }
+        stepsHistoryRepo.delete(sh.get());
+        return true;
+    }
+
 }

@@ -35,4 +35,9 @@ public class StepsHistoryController {
     public boolean addSteps(@RequestBody AddStepsRequest addStepsRequest) {
         return stepsHistoryService.addSteps(addStepsRequest);
     }
+
+    @DeleteMapping("/deleteStepsHistory")
+    public boolean deleteStepsHistory(@RequestParam long stepId) {
+       return stepsHistoryService.deleteStepsHistory(stepId);
+    }
 }
