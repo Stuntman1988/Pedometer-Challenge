@@ -19,7 +19,7 @@
   "addSteps": "Add steps",
   "addStepsButton": "Add",
   "usersList": "Choose user",
-  "Close": "Close",
+  "Close": "Cancel",
 
   "topHomeText": "Compete against your friends in a pedometer challenge!",
 
@@ -45,6 +45,21 @@
   "PasswordMustBe": "Password must be at least 6 characters",
   "EmailAlreadyReg": "Email already registered!",
 
-  "error": "Something went wrong"
+  "Stephistory": "Step history",
+  "NumberOfSteps": "Number of steps",
+  "DateAdded": "Date added",
+  "Delete": "Delete",
+  "TotalNumberOfSteps": "Total number of steps",
 
+  "Saved": "Saved",
+  "NotEmpty": "The fields must not be empty!",
+  "PersonalInfo": "Personal information",
+  "Edit": "Edit",
+  "EditPersonalInfo": "Edit personal information",
+  "YourData": "Your data",
+  "Save": "Save",
+
+  "error": "Something went wrong",
+
+  "dateLanguage": "en-US"
 }

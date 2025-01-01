@@ -12,4 +12,6 @@ public interface UserRepo extends JpaRepository<User, Long> {
     Optional<User> findUserByEmail(@RequestParam("email") String email);
 
     List<User> findUsersByTeamId(@RequestParam("team_id") long teamId);
+
+    Optional<User> findUserById(@RequestParam("id") long id);
 }

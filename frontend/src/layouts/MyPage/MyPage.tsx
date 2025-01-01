@@ -5,9 +5,11 @@ import {SpinnerLoading} from "../Utils/SpinnerLoading.tsx";
 import {StepsHistory} from "../../models/StepsHistory.ts";
 import {StepsHistoryComp} from "./Components/StepsHistoryComp.tsx";
 import {PersonalInfo} from "./Components/PersonalInfo.tsx";
+import {useTranslation} from "react-i18next";
 
 export const MyPage = () => {
 
+    const {t} = useTranslation();
     const {isLoggedIn} = useAuth()
     const [httpError, setHttpError] = useState('')
     const [httpStepsHistoryError, setHttpStepsHistoryError] = useState('')
@@ -108,11 +110,11 @@ export const MyPage = () => {
         <div className={'container mt-4'}>
             <div className={'row align-items-start'}>
                 <div className={'col-12 col-md-7 mb-3 mx-auto card'}>
-                    <h5 className={'card-header'}>Steghistorik</h5>
+                    <h5 className={'card-header'}>{t('Stephistory')}</h5>
                     <div className={'card-body'}>
                         <div className={'row'}>
-                            <h5 className={'card-title col-4'}>Antal steg</h5>
-                            <h5 className={'card-title col-6'}>Datum tillagt</h5>
+                            <h5 className={'card-title col-4'}>{t('NumberOfSteps')}</h5>
+                            <h5 className={'card-title col-6'}>{t('DateAdded')}</h5>
                         </div>
 
                         {isStepsHistoryLoading || user == undefined ?
@@ -133,7 +135,7 @@ export const MyPage = () => {
                     </div>
                 </div>
                 {user !== undefined &&
-                    <PersonalInfo user={user}/>
+                    <PersonalInfo user={user} setNewStepsAdded={setNewStepsAdded}/>
                 }
             </div>
         </div>

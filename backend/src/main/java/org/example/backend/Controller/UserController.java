@@ -2,6 +2,7 @@ package org.example.backend.Controller;
 
 import org.example.backend.Entity.User;
 import org.example.backend.RequestModels.AddToTeamRequest;
+import org.example.backend.RequestModels.EditPersonalInfoRequest;
 import org.example.backend.Service.Argon2Service;
 import org.example.backend.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,5 +34,10 @@ public class UserController {
     @PostMapping("/registerUser")
     public void registerUser(@RequestBody User user) throws Exception {
         userService.registerUser(user);
+    }
+
+    @PostMapping("/editPersonalInfo")
+    public void editUser(@RequestBody EditPersonalInfoRequest editPersonalInfoRequest) throws Exception {
+        userService.editUser(editPersonalInfoRequest);
     }
 }

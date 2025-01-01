@@ -5,6 +5,7 @@ import org.example.backend.Entity.User;
 import org.example.backend.Repository.TeamRepo;
 import org.example.backend.Repository.UserRepo;
 import org.example.backend.RequestModels.AddToTeamRequest;
+import org.example.backend.RequestModels.EditPersonalInfoRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,5 +60,16 @@ public class UserService {
         newUser.setEmail(user.getEmail());
         newUser.setPassword(argon2Service.hashPassword(user.getPassword()));
         userRepo.save(newUser);
+    }
+
+    public void editUser(EditPersonalInfoRequest ePIR) throws Exception {
+        Optional<User> user = userRepo.findUserById(ePIR.getUserId());
+        if (user.isEmpty()) {
+            throw new Exception("User doesn't exists");
+        }
+        user.get().setName(ePIR.getName());
+        user.get().setEmail(ePIR.getEmail());
+        userRepo.save(user.get());
+        log.info("User updated");
     }
 }

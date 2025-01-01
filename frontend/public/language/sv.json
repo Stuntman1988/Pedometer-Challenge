@@ -43,5 +43,21 @@
   "PasswordIncorrect": "Lösenordet är felaktigt",
   "SuccessfullyLoggedIn": "Du är inloggad",
 
-  "error": "Nått gick fel"
+  "Stephistory": "Steghistorik",
+  "NumberOfSteps": "Antal steg",
+  "DateAdded": "Datum tillagt",
+  "Delete": "Ta bort",
+  "TotalNumberOfSteps": "Totalt antal steg",
+
+  "Saved": "Sparat",
+  "NotEmpty": "Fälten får inte var tomma!",
+  "PersonalInfo": "Personlig information",
+  "Edit": "Redigera",
+  "EditPersonalInfo": "Redigera personlig information",
+  "YourData": "Dina uppgifter",
+  "Save": "Spara",
+
+  "error": "Nått gick fel",
+
+  "dateLanguage": "sv-SV"
 }
