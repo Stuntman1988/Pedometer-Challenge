@@ -40,4 +40,9 @@ public class UserController {
     public void editUser(@RequestBody EditPersonalInfoRequest editPersonalInfoRequest) throws Exception {
         userService.editUser(editPersonalInfoRequest);
     }
+
+    @PutMapping("/leaveTeam")
+    public void leaveTeam(@RequestHeader(value = "userId") long userId) throws Exception {
+        userService.leaveTeam(userId);
+    }
 }

@@ -56,6 +56,9 @@
   "EditPersonalInfo": "Redigera personlig information",
   "YourData": "Dina uppgifter",
   "Save": "Spara",
+  "ErrorFormatEmail": "Inte en giltig email!",
+  "LeaveTeam": "Gå ur team",
+  "JoinTeam": "Gå med i team",
 
   "error": "Nått gick fel",
 

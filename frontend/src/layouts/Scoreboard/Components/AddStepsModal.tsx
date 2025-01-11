@@ -5,7 +5,7 @@ import {User} from "../../../models/User.ts";
 import {AddStepsRequest} from "../../../models/AddStepsRequest.ts";
 
 
-export const AddStepsModal: React.FC<{setNewStepsAdded?: (value: boolean) => void, teamId: string}> = (prop) => {
+export const AddStepsModal: React.FC<{setNewStepsAdded?: (value: boolean) => void, teamId?: string, user?: User, fromMyPage: boolean }> = (prop) => {
 
     const {t} = useTranslation();
     const [httpError, setHttpError] = useState('')
@@ -15,9 +15,14 @@ export const AddStepsModal: React.FC<{setNewStepsAdded?: (value: boolean) => voi
     const [newSteps, setNewSteps] = useState('')
 
     useEffect(() => {
-        if (!prop.teamId){
+        if (prop.fromMyPage && prop.user){
+            const userTemp: User[] = []
+            userTemp.push(prop.user)
+            setUsers(userTemp)
+            setIsLoading(false)
             return
         }
+
         const fetchUsers = async () => {
             const url = `${import.meta.env.VITE_BACKEND_URL}/users/search/findUsersByTeamId?teamId=${prop.teamId}`
             const fetchUsersResponse = await fetch(url)

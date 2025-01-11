@@ -5,6 +5,7 @@ import {EditPersonalInfoRequest} from "../../../models/EditPersonalInfoRequest.t
 import {AlertModal} from "../../Utils/AlertModal.ts";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCircleExclamation} from "@fortawesome/free-solid-svg-icons";
+import {useNavigate} from "react-router-dom";
 
 
 export const PersonalInfo: React.FC<{ user: User, setNewStepsAdded?: (value: boolean) => void }> = (prop) => {
@@ -14,6 +15,7 @@ export const PersonalInfo: React.FC<{ user: User, setNewStepsAdded?: (value: boo
     const [name, setName] = useState(prop.user.name)
     const [email, setEmail] = useState(prop.user.email)
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const navigate = useNavigate()
 
     const saveChanges = async () => {
         const editedUser = new EditPersonalInfoRequest(prop.user.id, name, email)
@@ -51,6 +53,9 @@ export const PersonalInfo: React.FC<{ user: User, setNewStepsAdded?: (value: boo
             } else if (name === '' || email === '') {
                 setHttpError(`${t('NotEmpty')}`)
                 return
+            } else if (!checkValidEmailFormat()) {
+                setHttpError(`${t('ErrorFormatEmail')}`)
+                return
             } else {
                 setHttpError('')
                 await saveChanges()
@@ -60,6 +65,35 @@ export const PersonalInfo: React.FC<{ user: User, setNewStepsAdded?: (value: boo
         }
     }
 
+    const checkValidEmailFormat = () => {
+        const emailPattern = /[a-zA-Z0-9]+@[a-zA-Z]+\.[a-zA-Z]{2,3}/;
+        return emailPattern.test(email);
+    }
+
+    const leaveTeam = async () => {
+        const url = `${import.meta.env.VITE_BACKEND_URL}/users/leaveTeam`
+        const headers = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'userId': `${prop.user.id}`
+            }
+        }
+        const fetchLeaveTeam = await fetch(url, headers)
+
+        if (!fetchLeaveTeam.ok) {
+            setHttpError(fetchLeaveTeam.statusText)
+            return
+        }
+
+        localStorage.removeItem('teamToken')
+        setIsModalOpen(false);
+        setName(prop.user.name);
+        setEmail(prop.user.email);
+        setHttpError('')
+        navigate('/team')
+
+    }
 
     return (
         <>
@@ -115,10 +149,33 @@ export const PersonalInfo: React.FC<{ user: User, setNewStepsAdded?: (value: boo
                                 <div className={'input-group input-group-sm mb-3 mx-1'}>
                                     <span className={'input-group-text'} id={'inputGroup-sizing-sm'}
                                           style={{width: '55px'}}>Email</span>
-                                    <input type={'text'} className={`form-control ${email === '' ? 'is-invalid' : ''}`}
+                                    <input type={'text'}
+                                           className={`form-control ${email === '' || !checkValidEmailFormat() ? 'is-invalid' : ''}`}
                                            aria-label={'Sizing example input'}
                                            aria-describedby={'inputGroup-sizing-sm'} value={email}
                                            onChange={(e) => setEmail(e.target.value)}/>
+                                </div>
+
+                                <div className={'input-group input-group-sm mb-3 mx-1'}>
+                                    <span className={'input-group-text'} id={'inputGroup-sizing-sm'}
+                                          style={{width: '70px'}}>Team ID</span>
+                                    <input type={'text'} className={`form-control`} disabled
+                                           aria-label={'Sizing example input'}
+                                           aria-describedby={'inputGroup-sizing-sm'} value={prop.user.teamId}/>
+                                    {prop.user.teamId ?
+                                        <button className="btn btn-danger" type="button"
+                                                id="button-addon2"
+                                                onClick={leaveTeam}>
+                                            {(t('LeaveTeam'))}
+                                        </button>
+                                        :
+                                        <button className="btn btn-danger" type="button"
+                                                id="button-addon2"
+                                                onClick={() => navigate('/team')}>
+                                            {(t('JoinTeam'))}
+                                        </button>
+                                    }
+
                                 </div>
                             </div>
 

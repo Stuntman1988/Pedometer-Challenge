@@ -127,7 +127,7 @@ export const Scoreboard = () => {
                     {t('addSteps')}
                 </button>
             </div>
-            {teamId && <AddStepsModal setNewStepsAdded={setNewStepsAdded} teamId={teamId}/>}
+            {teamId && <AddStepsModal setNewStepsAdded={setNewStepsAdded} teamId={teamId} fromMyPage={false}/>}
         </div>
     )
 }

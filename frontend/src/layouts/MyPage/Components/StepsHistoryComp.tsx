@@ -5,7 +5,12 @@ import {StepsHistory} from "../../../models/StepsHistory.ts";
 import {useTranslation} from "react-i18next";
 
 
-export const StepsHistoryComp: React.FC<{user: User, stepsHistoryOfUser: StepsHistory[], totalSteps: number, setNewStepsAdded?: (value: boolean) => void}> = (prop) => {
+export const StepsHistoryComp: React.FC<{
+    user: User,
+    stepsHistoryOfUser: StepsHistory[],
+    totalSteps: number,
+    setNewStepsAdded?: (value: boolean) => void
+}> = (prop) => {
 
     const {t} = useTranslation();
 
@@ -19,7 +24,7 @@ export const StepsHistoryComp: React.FC<{user: User, stepsHistoryOfUser: StepsHi
         return new Intl.DateTimeFormat(`${t('dateLanguage')}`, {timeStyle: "short"}).format(newDate);
     }
 
-    const removeSteps = async(stepId: number) => {
+    const removeSteps = async (stepId: number) => {
         const url = `${import.meta.env.VITE_BACKEND_URL}/stepsHistory/deleteStepsHistory?stepId=${stepId}`
         const headers = {
             method: 'DELETE',
@@ -42,6 +47,7 @@ export const StepsHistoryComp: React.FC<{user: User, stepsHistoryOfUser: StepsHi
         <>
             <div className={'overflow-y-auto'}
                  style={{maxHeight: "350px", width: "100%", overflowX: "hidden"}}>
+
                 {prop.stepsHistoryOfUser.map(sh => (
                     <li className='border card-text mb-1' key={sh.id}
                         style={{listStyle: "none"}}>
@@ -58,14 +64,10 @@ export const StepsHistoryComp: React.FC<{user: User, stepsHistoryOfUser: StepsHi
             <div className={''}>
                 <h6 className={'mx-1 mt-2'}>{prop.totalSteps} {t('TotalNumberOfSteps')}</h6>
             </div>
-            {prop.user.teamId &&
-                <>
-                    <button className={'btn btn-success mt-2'} data-bs-toggle="modal"
-                            data-bs-target="#addStepsModal">{t('addSteps')}</button>
+            <button className={'btn btn-success mt-2'} data-bs-toggle="modal"
+                    data-bs-target="#addStepsModal">{t('addSteps')}</button>
 
-                    <AddStepsModal setNewStepsAdded={prop.setNewStepsAdded} teamId={prop.user.teamId.toString()}/>
-                </>
-            }
+            <AddStepsModal setNewStepsAdded={prop.setNewStepsAdded} teamId={prop.user?.teamId?.toString()} user={prop.user} fromMyPage={true}/>
 
         </>
 

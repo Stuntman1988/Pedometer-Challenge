@@ -44,10 +44,8 @@ export const MyPage = () => {
                 setHaveTeamId(true)
             }
 
-            setIsLoading(false)
             setUser(loggedInUser)
-            await fetchStepsHistory()
-
+            setIsLoading(false)
 
         }
         fetchUserInfo().catch((error) => {
@@ -56,12 +54,13 @@ export const MyPage = () => {
         })
     }, [newStepsAdded, haveTeamId, isLoggedIn]);
 
+    useEffect(() => {
+        if (user) {
+            fetchStepsHistory()
+        }
+    }, [user]);
 
     const fetchStepsHistory = async () => {
-        if (!user && !haveTeamId) {
-            setIsStepsHistoryLoading(false)
-            return
-        }
         const url = `${import.meta.env.VITE_BACKEND_URL}/stepsHistories/search/findStepsHistoriesByUserId?userId=${user?.id}`
         const stepsHistoryResponse = await fetch(url)
 
@@ -88,6 +87,7 @@ export const MyPage = () => {
         setIsStepsHistoryLoading(false)
         setNewStepsAdded(false)
         setStepsHistoryOfUser(stepsHistoryOfUserTemp)
+
     }
 
 
@@ -112,10 +112,6 @@ export const MyPage = () => {
                 <div className={'col-12 col-md-7 mb-3 mx-auto card'}>
                     <h5 className={'card-header'}>{t('Stephistory')}</h5>
                     <div className={'card-body'}>
-                        <div className={'row'}>
-                            <h5 className={'card-title col-4'}>{t('NumberOfSteps')}</h5>
-                            <h5 className={'card-title col-6'}>{t('DateAdded')}</h5>
-                        </div>
 
                         {isStepsHistoryLoading || user == undefined ?
                             <SpinnerLoading/>
@@ -124,16 +120,22 @@ export const MyPage = () => {
                                 {httpStepsHistoryError ?
                                     <p className={'card-text'}>{httpStepsHistoryError}</p>
                                     :
-                                    <StepsHistoryComp user={user}
-                                                      stepsHistoryOfUser={stepsHistoryOfUser}
-                                                      totalSteps={totalSteps}
-                                                      setNewStepsAdded={setNewStepsAdded}/>
+                                    <>
+                                        <div className={'row'}>
+                                            <h5 className={'card-title col-4'}>{t('NumberOfSteps')}</h5>
+                                            <h5 className={'card-title col-6'}>{t('DateAdded')}</h5>
+                                        </div>
+                                        <StepsHistoryComp user={user}
+                                                          stepsHistoryOfUser={stepsHistoryOfUser}
+                                                          totalSteps={totalSteps}
+                                                          setNewStepsAdded={setNewStepsAdded}/>
+                                    </>
                                 }
                             </>
                         }
-
                     </div>
                 </div>
+
                 {user !== undefined &&
                     <PersonalInfo user={user} setNewStepsAdded={setNewStepsAdded}/>
                 }

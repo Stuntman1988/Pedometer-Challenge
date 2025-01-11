@@ -72,4 +72,14 @@ public class UserService {
         userRepo.save(user.get());
         log.info("User updated");
     }
+
+    public void leaveTeam(long userId) throws Exception {
+        Optional<User> user = userRepo.findUserById(userId);
+        if (user.isEmpty()) {
+            throw new Exception("User doesn't exists");
+        }
+        user.get().setTeam(null);
+        userRepo.save(user.get());
+        log.info("User leaved team");
+    }
 }

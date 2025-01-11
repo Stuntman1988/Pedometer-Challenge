@@ -58,6 +58,9 @@
   "EditPersonalInfo": "Edit personal information",
   "YourData": "Your data",
   "Save": "Save",
+  "ErrorFormatEmail": "Not a valid email!",
+  "LeaveTeam": "Leave team",
+  "JoinTeam": "Gå med i team",
 
   "error": "Something went wrong",
 
