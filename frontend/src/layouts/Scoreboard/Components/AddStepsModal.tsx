@@ -16,9 +16,7 @@ export const AddStepsModal: React.FC<{setNewStepsAdded?: (value: boolean) => voi
 
     useEffect(() => {
         if (prop.fromMyPage && prop.user){
-            const userTemp: User[] = []
-            userTemp.push(prop.user)
-            setUsers(userTemp)
+            setSelectedUser(prop.user.id.toString())
             setIsLoading(false)
             return
         }
@@ -108,9 +106,17 @@ export const AddStepsModal: React.FC<{setNewStepsAdded?: (value: boolean) => voi
                                 <div className={'input-group mb-3'}>
                                     <select className={'form-select'} aria-label={'Default select example'}
                                             value={selectedUser} onChange={(e) => setSelectedUser(e.target.value)}>
-                                        <option value=''>{t('usersList')}</option>
-                                        {users.map((user: User) =>
-                                            <option key={user.id} value={user.id}>{user.name}</option>)
+                                        {prop.fromMyPage && prop.user ?
+                                            <>
+                                                <option value={selectedUser} >{prop.user.name}</option>
+                                            </>
+                                            :
+                                            <>
+                                                <option value=''>{t('usersList')}</option>
+                                                {users.map((user: User) =>
+                                                    <option key={user.id} value={user.id}>{user.name}</option>)
+                                                }
+                                            </>
                                         }
                                     </select>
                                     <input type={'number'} className={'form-control'} placeholder={t('Steps')} value={newSteps}
