@@ -5,15 +5,11 @@ import org.example.backend.Entity.User;
 import org.example.backend.Repository.StepsHistoryRepo;
 import org.example.backend.Repository.UserRepo;
 import org.example.backend.RequestModels.AddStepsRequest;
-import org.example.backend.ResponseModels.TotalStepsOfUsers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,11 +19,13 @@ public class StepsHistoryService {
     private static final Logger log = LoggerFactory.getLogger(StepsHistoryService.class);
     private StepsHistoryRepo stepsHistoryRepo;
     private UserRepo userRepo;
+    private LogfileService logfileService;
 
     @Autowired
-    public StepsHistoryService(StepsHistoryRepo stepsHistoryRepo, UserRepo userRepo) {
+    public StepsHistoryService(StepsHistoryRepo stepsHistoryRepo, UserRepo userRepo, LogfileService logfileService) {
         this.stepsHistoryRepo = stepsHistoryRepo;
         this.userRepo = userRepo;
+        this.logfileService = logfileService;
     }
 
     public boolean addSteps(AddStepsRequest addStepsRequest) {
@@ -40,7 +38,8 @@ public class StepsHistoryService {
         sh.setUser(user.get());
         sh.setSteps(addStepsRequest.getSteps());
         stepsHistoryRepo.save(sh);
-        log.info("addSteps " + addStepsRequest.getUserId());
+        log.info("addSteps {}", addStepsRequest.getUserId());
+        logfileService.writeToLogfile("Added " + addStepsRequest.getSteps() + " steps to: (ID:" + addStepsRequest.getUserId() + ") " + user.get().getEmail());
         return true;
     }
 
@@ -51,6 +50,7 @@ public class StepsHistoryService {
             return false;
         }
         stepsHistoryRepo.delete(sh.get());
+        logfileService.writeToLogfile("Deleted steps for " + sh.get().getUser().getEmail());
         return true;
     }
 

@@ -39,7 +39,7 @@ public class TeamService {
                 newTeam.setStepsGoal(stepGoal);
                 teamRepo.save(newTeam);
                 notUniqueId = false;
-                log.info("Created a new team with id " + randomId);
+                log.info("Created a new team with id {}", randomId);
             }
         }
         userService.addUserToTeam(new AddToTeamRequest(userId, randomId));
