@@ -19,15 +19,17 @@ import java.util.Optional;
 public class UserService {
 
     private static final Logger log = LoggerFactory.getLogger(UserService.class);
-    private UserRepo userRepo;
-    private TeamRepo teamRepo;
-    private Argon2Service argon2Service;
+    private final UserRepo userRepo;
+    private final TeamRepo teamRepo;
+    private final Argon2Service argon2Service;
+    private final LogfileService logfileService;
 
     @Autowired
-    public UserService(UserRepo userRepo, TeamRepo teamsRepo, Argon2Service argon2Service) {
+    public UserService(UserRepo userRepo, TeamRepo teamsRepo, Argon2Service argon2Service, LogfileService logfileService) {
         this.userRepo = userRepo;
         this.teamRepo = teamsRepo;
         this.argon2Service = argon2Service;
+        this.logfileService = logfileService;
     }
 
     public void addUserToTeam(AddToTeamRequest addToTeamRequest) throws Exception {
@@ -39,6 +41,7 @@ public class UserService {
         user.get().setTeam(team.get());
         userRepo.save(user.get());
         log.info("User added to team");
+        logfileService.writeToLogfile("User: " + user.get().getEmail() + "was added to team: " + team.get().getId());
     }
 
     public boolean verifyPassword(String userPass) throws Exception {
@@ -60,6 +63,7 @@ public class UserService {
         newUser.setEmail(user.getEmail());
         newUser.setPassword(argon2Service.hashPassword(user.getPassword()));
         userRepo.save(newUser);
+        logfileService.writeToLogfile("New user was registered: " + newUser.getEmail());
     }
 
     public void editUser(EditPersonalInfoRequest ePIR) throws Exception {
@@ -71,6 +75,7 @@ public class UserService {
         user.get().setEmail(ePIR.getEmail());
         userRepo.save(user.get());
         log.info("User updated");
+        logfileService.writeToLogfile(user.get().getEmail() + " was updated");
     }
 
     public void leaveTeam(long userId) throws Exception {
@@ -81,5 +86,6 @@ public class UserService {
         user.get().setTeam(null);
         userRepo.save(user.get());
         log.info("User leaved team");
+        logfileService.writeToLogfile(user.get().getEmail() + " has leaved a team");
     }
 }

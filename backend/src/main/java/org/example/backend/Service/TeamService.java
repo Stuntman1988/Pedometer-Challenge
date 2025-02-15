@@ -17,13 +17,15 @@ import java.util.Random;
 public class TeamService {
 
     private static final Logger log = LoggerFactory.getLogger(TeamService.class);
-    private TeamRepo teamRepo;
-    private UserService userService;
+    private final TeamRepo teamRepo;
+    private final UserService userService;
+    private final LogfileService logfileService;
 
     @Autowired
-    public TeamService(TeamRepo teamRepo, UserService userService) {
+    public TeamService(TeamRepo teamRepo, UserService userService, LogfileService logfileService) {
         this.teamRepo = teamRepo;
         this.userService = userService;
+        this.logfileService = logfileService;
     }
 
     public long createNewTeam(long stepGoal, long userId) throws Exception{
@@ -40,6 +42,7 @@ public class TeamService {
                 teamRepo.save(newTeam);
                 notUniqueId = false;
                 log.info("Created a new team with id {}", randomId);
+                logfileService.writeToLogfile("Created a new team with id " + randomId);
             }
         }
         userService.addUserToTeam(new AddToTeamRequest(userId, randomId));
