@@ -1,5 +1,5 @@
 import './App.css'
-import {Navigate, Route, Routes} from "react-router-dom";
+import {Navigate, Route, Routes, useLocation} from "react-router-dom";
 import {Navbar} from "./layouts/NavbarAndFooter/Navbar.tsx";
 import {HomePage} from "./layouts/HomePage/HomePage.tsx";
 import {Scoreboard} from "./layouts/Scoreboard/Scoreboard.tsx";
@@ -10,14 +10,16 @@ import {Footer} from "./layouts/NavbarAndFooter/Footer.tsx";
 import {Team} from "./layouts/Teams/Team.tsx";
 import {RegisterUser} from "./layouts/RegisterUser/RegisterUser.tsx";
 import {MyPage} from "./layouts/MyPage/MyPage.tsx";
+import {SecretScoreboard} from "./layouts/SecretScoreboard/SecretScoreboard.tsx";
 
 function App() {
-
+    const location = useLocation();
+    const hideNavbarAndFooter = location.pathname.endsWith("/secret-scoreboard")
 
     return (
         <>
             <AuthProvider>
-                <Navbar/>
+                {!hideNavbarAndFooter && <Navbar/>}
                 <Routes>
                     <Route path='/' element={<Navigate to='/home'/>}/>
                     <Route path='/home' element={<HomePage/>}/>
@@ -26,8 +28,9 @@ function App() {
                     <Route path='/scoreboard' element={<SecureRoute comp={Scoreboard}/>}/>
                     <Route path='/team' element={<SecureRoute comp={Team}/>}/>
                     <Route path='/myPage' element={<SecureRoute comp={MyPage}/>}/>
+                    <Route path='/secret-scoreboard' element={<SecretScoreboard/>}/>
                 </Routes>
-                <Footer/>
+                {!hideNavbarAndFooter && <Footer/>}
             </AuthProvider>
         </>
     )

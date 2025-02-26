@@ -13,8 +13,10 @@
   "signIn": "Logga in",
   "Days": "Dagar",
   "Week": "Vecka",
+  "StepPerDay": "steg/dag",
   "SessionExpired": "Sessionen har löpt ut",
   "YouLogOut": "Du har blivit utloggad!",
+  "LastUpdated": "Senast uppdaterat:",
 
   "addSteps": "Lägg till steg",
   "addStepsButton": "Lägg till",

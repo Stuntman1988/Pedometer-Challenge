@@ -1,24 +1,23 @@
-import {Progressbar} from "./Components/Progressbar.tsx";
+
 import {useEffect, useState} from "react";
 import {TotalStepsOfUsers} from "../../models/TotalStepsOfUsers.ts";
 import {SpinnerLoading} from "../Utils/SpinnerLoading.tsx";
 import {useTranslation} from "react-i18next";
-import {AddStepsModal} from "./Components/AddStepsModal.tsx";
-import {useAuth} from "../../auth/AuthContext.tsx";
 import {useNavigate} from "react-router-dom";
 import {Team} from "../../models/Team.ts";
+import {Progressbar} from "../Scoreboard/Components/Progressbar.tsx";
+import {AddStepsModal} from "../Scoreboard/Components/AddStepsModal.tsx";
 
 
-export const Scoreboard = () => {
+export const SecretScoreboard = () => {
 
     const {t} = useTranslation();
-    const {isLoggedIn} = useAuth()
     const navigate = useNavigate();
     const [httpError, setHttpError] = useState('')
     const [isLoading, setIsLoading] = useState(true)
     const [totalStepsOfUser, setTotalStepsOfUser] = useState<TotalStepsOfUsers[]>([])
     const [newStepsAdded, setNewStepsAdded] = useState(false)
-    const [teamToken] = useState<string | null>(localStorage.getItem("teamToken"));
+    const [teamToken] = useState('999');
     const [teamId, setTeamId] = useState('')
     const [team, setTeam] = useState<Team>()
 
@@ -29,7 +28,7 @@ export const Scoreboard = () => {
 
     useEffect(() => {
         const fetchTotalSteps = async () => {
-            if (isLoggedIn && teamToken) {
+            if (teamToken) {
                 const url = `${import.meta.env.VITE_BACKEND_URL}/stepsHistory/totalStepsOfUsers?teamId=${teamToken}`
                 setTeamId(teamToken)
                 const fetchTotalStepsResponse = await fetch(url)
@@ -52,9 +51,6 @@ export const Scoreboard = () => {
 
                 setTotalStepsOfUser(tempList)
                 setNewStepsAdded(false)
-            } else if (teamToken === null) {
-                navigate('/team')
-                return
             }
             await getTeam()
             setIsLoading(false)
@@ -64,7 +60,7 @@ export const Scoreboard = () => {
             setIsLoading(false)
         })
 
-    }, [newStepsAdded, isLoggedIn, teamToken, navigate]);
+    }, [newStepsAdded, teamToken, navigate]);
 
     const getTeam = async () => {
         const url = `${import.meta.env.VITE_BACKEND_URL}/teams/search/findTeamById?teamId=${teamToken}`

@@ -13,8 +13,10 @@
   "signIn": "Sign in",
   "Days": "Days",
   "Week": "Week",
+  "StepPerDay": "step/day",
   "SessionExpired": "Session has expired",
   "YouLogOut": "You have been logged out!",
+  "LastUpdated": "Last updated:",
 
   "addSteps": "Add steps",
   "addStepsButton": "Add",

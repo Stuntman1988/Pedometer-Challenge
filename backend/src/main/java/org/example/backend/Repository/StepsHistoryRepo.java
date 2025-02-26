@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface StepsHistoryRepo extends JpaRepository<StepsHistory, Long> {
 
-    @Query("SELECT new org.example.backend.ResponseModels.TotalStepsOfUsers(u.name, COALESCE(SUM(sh.steps), 0)) " +
+    @Query("SELECT new org.example.backend.ResponseModels.TotalStepsOfUsers(u.id, u.name, COALESCE(SUM(sh.steps), 0)) " +
             "FROM User u " +
             "LEFT JOIN StepsHistory sh ON sh.user.id = u.id " +
             "INNER JOIN team t ON u.team.id = t.id " +
