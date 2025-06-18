@@ -14,7 +14,7 @@ public interface StepsHistoryRepo extends JpaRepository<StepsHistory, Long> {
     @Query("SELECT new org.example.backend.ResponseModels.TotalStepsOfUsers(u.id, u.name, COALESCE(SUM(sh.steps), 0)) " +
             "FROM User u " +
             "LEFT JOIN StepsHistory sh ON sh.user.id = u.id " +
-            "INNER JOIN team t ON u.team.id = t.id " +
+            "INNER JOIN Team t ON u.team.id = t.id " +
             "WHERE t.id = :teamId " +
             "GROUP BY u.id " +
             "ORDER BY COALESCE(SUM(sh.steps), 0) DESC")

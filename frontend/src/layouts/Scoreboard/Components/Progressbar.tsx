@@ -8,6 +8,7 @@ export const Progressbar: React.FC<{ data: TotalStepsOfUsers, newStepsAdded: boo
 
     const {t} = useTranslation()
     const [latestStepHistoryDate, setLatestStepHistoryDate] = useState('')
+    const [firstStepHistoryDate, setFirstStepHistoryDate] = useState('')
 
     const goalSteps = prop.team?.stepsGoal ?? 0
     const percentOfSteps = parseFloat(((prop.data.totalSteps / goalSteps) * 100).toFixed(1));
@@ -24,6 +25,8 @@ export const Progressbar: React.FC<{ data: TotalStepsOfUsers, newStepsAdded: boo
 
             const stepsHistoryResponseJson = await stepsHistoryResponse.json()
             const stepsHistoryResponseJsonData = stepsHistoryResponseJson._embedded.stepsHistories
+            console.log(stepsHistoryResponseJsonData.at(0).createdAt)
+            setFirstStepHistoryDate(stepsHistoryResponseJsonData.at(0).createdAt)
             setLatestStepHistoryDate(stepsHistoryResponseJsonData.at(-1).createdAt)
         }
         fetchStepsHistory().catch((err) => {
@@ -37,7 +40,11 @@ export const Progressbar: React.FC<{ data: TotalStepsOfUsers, newStepsAdded: boo
     }
 
     const countAveragePerDay = (totSteps: number)=> {
-        return Math.round(totSteps / (prop.diffInWeeks * 7))
+        const firstDate = new Date(firstStepHistoryDate)
+        const lastDate = new Date(latestStepHistoryDate)
+        const diffTime = Math.abs(lastDate.getTime() - firstDate.getTime())
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+        return Math.round(totSteps / diffDays)
     }
 
     return (
